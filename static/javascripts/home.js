@@ -25,7 +25,7 @@ class ChoiceJeaketApp extends React.Component {
 				<img src={'/images/warehouse/' + it['thumbnails']} className='img-responsive center-block jacketImage'/>
 				<p className='jacketInfo'>
 					<span className='jacketName'><h3>{it['name']}</h3></span>
-					<span className='jacketPic'><small>{it['pic']}</small></span>
+					<span className='jacketPic'>{it['pic']}</span>
 					<span className='jacketColor'>{it['colors']}</span>
 				</p>
 			</div>
@@ -45,7 +45,7 @@ class ChoiceJeaketApp extends React.Component {
 }
 
 class ChoicePantsApp extends React.Component {
-	
+
 	constructor(props) {
 		super(props);
 	}
@@ -57,10 +57,10 @@ class ChoicePantsApp extends React.Component {
 				<img src={'/images/warehouse/' + it['thumbnails']} className='img-responsive center-block jacketImage'/>
 				<p className='jacketInfo'>
 					<span className='jacketName'><h3>{it['name']}</h3></span>
-					<span className='jacketPic'><small>{it['pic']}</small></span>
+					<span className='jacketPic'>{it['pic']}</span>
 					<span className='jacketColor'>{it['colors']}</span>
 				</p>
-			</div>			
+			</div>
 		));
 	}
 
@@ -97,6 +97,29 @@ ShowApp['defaultProps'] = {
 	pants: 'default-men-bottom.png'
 }
 
+class ContrastBar extends React.Component {
+
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<div className='contrast_bar'>
+					<div className='contrast_title'>方案对比</div>
+					<div className='contrast_plan'>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div><span className='contrast_btn' >对比</span></div>
+			</div>
+		);
+	}
+}
+
 class SeletedApp extends React.Component {
 
 	constructor(props) {
@@ -109,6 +132,7 @@ class SeletedApp extends React.Component {
 				<ChoiceJeaketApp items={data['jacketStyles']}/>
 				<ShowApp />
 				<ChoicePantsApp items={data['pantsStyles']}/>
+				<ContrastBar />
 			</div>
 		);
 	}

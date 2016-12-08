@@ -1,5 +1,5 @@
 /**!
- * tru.jwis.cn - service/jacketService.js
+ * tru.jwis.cn - service/pantsService.js
  *
  * Copyright(c) afterloe.
  * ISC Licensed
@@ -9,11 +9,11 @@
  */
 "use strict";
 
-import {jacketDao} from '../dao'
+import {ratzDao} from '../dao'
 
 export default class JacketService {
 
 	static queryJacketStyle() {
-		return jacketDao.selectStyle();
+		return ratzDao.selectStyle();
 	}
 }

@@ -8,16 +8,62 @@
  *   afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
  */
 
+.contrast_bar {
+    position: absolute;
+    background-color: #f5f5f5;
+    color: #9d9d9d;
+    height: 14em;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.contrast_title {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: border;
+}
+
+.contrast_plan {
+    height: 9em;
+}
+
+.contrast_plan>span {
+    border: 0.1em solid #CCC;
+    width: 6em;
+    margin-top: 0.7em;
+    margin-right: 4.5em;
+    height: 7.8em;
+    display: -webkit-inline-box;
+}
+
+.contrast_plan>span:hover {
+    border: 0.1em solid #000000;
+    cursor: pointer;
+}
+
+.contrast_btn {
+    display: inline-block;
+    cursor:pointer;
+    width: 12em;
+    background-color: #9d9d9d;
+    color: #f5f5f5;
+    height: 1.9em;
+    padding: 0.23em;
+    border-radius: 0.6em;
+}
+
 .jacket {
     position: relative;
-	display: block;
-	max-width: 96%;
-	height: auto;
-	z-index: auto;
+    display: block;
+    max-width: 96%;
+    height: auto;
+    z-index: auto;
 }
 
 .pants {
-	margin-top: -44px;
+    margin-top: -4.0em;
     display: block;
     max-width: 100%;
     height: auto;
@@ -35,57 +81,72 @@
 }
 
 .choiceJeaketApp_border {
-	/* border-bottom: 1.5px solid #3c763d;	*/
-	background: -webkit-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0)); /* Safari 5.1 - 6.0 */
-	background: -o-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0)); /* Opera 11.1 - 12.0 */
-	background: -moz-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0)); /* Firefox 3.6 - 15 */
-	background: linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)); /* 标准的语法 */
+    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+    /* 标准的语法 */
 }
 
 .jacketStyle {
-	min-width: 102.25px;
-	min-height: 242.067px;
+    min-width: 110px;
+    border: 0.1em solid rgba(0, 0, 0, 0);
+}
+
+.jacketStyle:hover {
+    cursor: pointer;
+    border: 0.1em solid rgba(60, 118, 61, 0.48);
 }
 
 .jacketImage {
+    max-width: 100%;
+    display: block;
+    border: 0;
 }
 
 .chose_btn_right {
-	margin-top: 10px;
+    margin-top: 10px;
     margin-bottom: 10px;
-	text-align: right;
-	font-size: 20px;
-	font-weight: bolder;
+    text-align: right;
+    font-size: 20px;
+    font-weight: bolder;
 }
 
 .chose_btn_left {
-	margin-top: 10px;
+    margin-top: 10px;
     margin-bottom: 10px;
-	text-align: left;
-	font-size: 20px;
-	font-weight: bolder;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bolder;
 }
 
 .jacketInfo {
-	margin-top: 5px;
+    margin-top: 5px;
 }
 
-.jacketInfo > span {
-	display: block;
-	text-align: center;
+.jacketInfo>span {
+    display: block;
+    text-align: center;
 }
 
-.jacketName > h3 {
-	text-align: center;
-	text-transform: uppercase;
-	margin: 0 0 0 0;
-	padding: 0;
+.jacketName>h3 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    margin: 0 0 0 0;
+    padding: 0;
 }
 
 .jacketPic {
-
+    -webkit-text-size-adjust: none;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin: 0 0 0 0;
+    padding: 0;
 }
 
-.jacketColor {
-
-}
+.jacketColor {}

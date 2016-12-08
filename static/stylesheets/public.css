@@ -1,11 +1,18 @@
 /**
- * Copyright(c) afterloe. 
+ * Copyright(c) afterloe.
  * ISC Licensed
  *
  * Authors:
  *	 afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
  *
  */
+ body {
+	 	font-family: "Microsoft YaHei" ! important;
+		cursor: default;
+		min-width: 12.8em;
+		min-height: 8.8em;
+ }
+
 .nav {
 	background-color:#ffffff;
 	height: 80px;
