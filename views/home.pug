@@ -1,6 +1,10 @@
-//
-    create by afterloe , Copyright(c) afterloe. ISC Licensed
 include header
-h2
-img(src="/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg")
+
+#body(class="container")
+
 include footer
+
+script(type="text/babel").
+  localStorage['data'] = `!{JSON.stringify(locals)}`;
+script(type="text/babel" src="/javascripts/home.js")
+link(rel="stylesheet" href="/stylesheets/home.css")

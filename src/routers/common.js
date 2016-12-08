@@ -9,12 +9,19 @@
  */
 "use strict";
 
+import jacketService from '../service/jacketService';
+
 export default class Common {
     static async home(ctx, next) {
         if (ctx.error) return next();
         try {
+			const jacketStyles = jacketService.queryJacketStyle();
+			const pantsStyles = [];
+
             ctx.render('home', {
-                title: `welcome TRU`
+                title: `welcome TRU`,
+				jacketStyles,
+				pantsStyles
             });
         } catch (error) {
             console.log(error);

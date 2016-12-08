@@ -1,0 +1,91 @@
+/**
+ * tru.jwis.cn - /static/stylesheets/home.css
+ *
+ * Copyright(c) afterloe.
+ * ISC Licensed
+ *
+ * Authors:
+ *   afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
+ */
+
+.jacket {
+    position: relative;
+	display: block;
+	max-width: 96%;
+	height: auto;
+	z-index: auto;
+}
+
+.pants {
+	margin-top: -44px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 0;
+}
+
+.shadow {
+    max-width: 100%;
+    position: relative;
+    display: block;
+    border: 0;
+    margin-top: -36%;
+    z-index: 0;
+}
+
+.choiceJeaketApp_border {
+	/* border-bottom: 1.5px solid #3c763d;	*/
+	background: -webkit-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0)); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0)); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0)); /* Firefox 3.6 - 15 */
+	background: linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)); /* 标准的语法 */
+}
+
+.jacketStyle {
+	min-width: 102.25px;
+	min-height: 242.067px;
+}
+
+.jacketImage {
+}
+
+.chose_btn_right {
+	margin-top: 10px;
+    margin-bottom: 10px;
+	text-align: right;
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+.chose_btn_left {
+	margin-top: 10px;
+    margin-bottom: 10px;
+	text-align: left;
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+.jacketInfo {
+	margin-top: 5px;
+}
+
+.jacketInfo > span {
+	display: block;
+	text-align: center;
+}
+
+.jacketName > h3 {
+	text-align: center;
+	text-transform: uppercase;
+	margin: 0 0 0 0;
+	padding: 0;
+}
+
+.jacketPic {
+
+}
+
+.jacketColor {
+
+}
