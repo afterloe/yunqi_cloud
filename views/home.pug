@@ -5,6 +5,13 @@ include header
 include footer
 
 script(type="text/javascript").
-  localStorage['data'] = `!{JSON.stringify(locals)}`;
+  sessionStorage['data'] = `!{JSON.stringify(locals)}`;
+  function parseData() {
+    try {
+      return JSON.parse(sessionStorage['data']);
+    } catch(error) {
+      return null;
+    }
+  }
 script(type="text/babel" src="/javascripts/home.js")
 link(rel="stylesheet" href="/stylesheets/home.css")

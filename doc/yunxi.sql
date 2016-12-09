@@ -6,7 +6,7 @@ CREATE TABLE "warehouse" (
 	`color`	TEXT,
 	`style`	INTEGER,
 	`characteristic`	TEXT,
-	` repertory`	INTEGER,
+	`repertory`	INTEGER,
 	`thumbnail`	TEXT,
 	`cycle`	TEXT,
 	`hot`	INTEGER
