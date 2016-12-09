@@ -16,5 +16,6 @@ function load(name) {
 	return sequelize.import(resolve(__dirname, name));
 };
 
-export const jacketDao = load('jacket');
-export const pantsDao = load('pants');
+export const styleDao = load('style');
+// export const pantsDao = load('pants');
+

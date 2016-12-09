@@ -9,11 +9,11 @@
  */
 "use strict";
 
-import {jacketDao} from '../dao'
+import {styleDao} from '../dao';
 
 export default class JacketService {
 
-	static queryJacketStyle() {
-		return jacketDao.selectStyle();
+	static queryStylesheets() {
+		return styleDao.selectStylesheets(1);
 	}
 }

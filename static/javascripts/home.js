@@ -22,10 +22,10 @@ class ChoiceJeaketApp extends React.Component {
 		const items = this['props']['items'];
 		return items.map((it,index) => (
 			<div className='col-md-3 jacketStyle'>
-				<img src={'/images/warehouse/' + it['thumbnails']} className='img-responsive center-block jacketImage'/>
+				<img src={'/images/warehouse/' + it['representative']} className='img-responsive center-block jacketImage'/>
 				<p className='jacketInfo'>
 					<span className='jacketName'><h3>{it['name']}</h3></span>
-					<span className='jacketPic'>{it['pic']}</span>
+					<span className='jacketPic'>{it['interval']}</span>
 					<span className='jacketColor'>{it['colors']}</span>
 				</p>
 			</div>
@@ -54,10 +54,10 @@ class ChoicePantsApp extends React.Component {
 		const items = this['props']['items'];
 		return items.map((it, index) => (
 			<div className='col-md-2 jacketStyle'>
-				<img src={'/images/warehouse/' + it['thumbnails']} className='img-responsive center-block jacketImage'/>
+				<img src={'/images/warehouse/' + it['representative']} className='img-responsive center-block jacketImage'/>
 				<p className='jacketInfo'>
 					<span className='jacketName'><h3>{it['name']}</h3></span>
-					<span className='jacketPic'>{it['pic']}</span>
+					<span className='jacketPic'>{it['interval']}</span>
 					<span className='jacketColor'>{it['colors']}</span>
 				</p>
 			</div>

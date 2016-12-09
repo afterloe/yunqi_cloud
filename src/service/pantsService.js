@@ -9,11 +9,11 @@
  */
 "use strict";
 
-import {ratzDao} from '../dao'
+import {styleDao} from '../dao';
 
 export default class JacketService {
 
-	static queryJacketStyle() {
-		return ratzDao.selectStyle();
+	static queryStylesheets() {
+		return styleDao.selectStylesheets(2);
 	}
 }

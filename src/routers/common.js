@@ -16,8 +16,8 @@ export default class Common {
     static async home(ctx, next) {
         if (ctx.error) return next();
         try {
-            const jacketStyles = jacketService.queryJacketStyle();
-            const pantsStyles = pantsService.queryJacketStyle();
+            const jacketStyles = await jacketService.queryStylesheets();
+            const pantsStyles = await pantsService.queryStylesheets();
             ctx.render('home', {
                 title: `welcome TRU`,
                 jacketStyles,

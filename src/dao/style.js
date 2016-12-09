@@ -1,5 +1,5 @@
 /**!
- * tru.jwis.cm - /src/dao/jacket.js
+ * tru.jwis.cm - /src/dao/style.js
  *
  * Copyright(c) afterloe.
  * ISC Licensed
@@ -11,12 +11,12 @@
 
 const sqlMap = new Map();
 
-sqlMap.set('selectStyle','SELECT * FROM style WHERE type = 1');
+sqlMap.set('selectStyle','SELECT name,representative,id,colors,interval FROM style WHERE type = $type');
 
 export default sequelize => sequelize.define({
-	selectStyle: function () {
+	selectStylesheets: function (__type) {
 		return new Promise((resolve,reject) => {
-			this.all(sqlMap.get('selectStyle'), (error, rows) => {
+			this.all(sqlMap.get('selectStyle'), {$type: __type}, (error, rows) => {
 				if(error) reject(error);
 				resolve(rows);
 			});

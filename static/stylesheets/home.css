@@ -12,7 +12,7 @@
 	position:absolute;
 	left:0;
 	right:0;
-	bottom:-12.5em;
+	bottom:-18em;
     background-color: #e6e6e6;
     color: #9d9d9d;
     height: 12.5em;
@@ -59,7 +59,7 @@
     display: block;
     max-width: 96%;
     height: auto;
-    z-index: auto;
+    z-index: 1;
 }
 
 .pants {
@@ -129,6 +129,7 @@
 
 .jacketInfo>span {
     display: block;
+	overflow:hidden;
     text-align: center;
 }
 
