@@ -1,4 +1,4 @@
 {
   "registryPort": 15021,
-  "bindHost": "127.0.0.1"
+  "bindHost": "0.0.0.0"
 }
