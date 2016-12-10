@@ -9,10 +9,34 @@
  */
 "use strict";
 
+function getStyleInfomation(id) {
+	return new Promise((resolve,reject) => {
+		let xhr = new XMLHttpRequest();
+		xhr.timeout = 15 * 1000;
+		xhr.ontimeout = event => reject(new Error('can\'t get style info from server, please try again'));
+		xhr.open('get', `/json/style/styleInfo/${id}`);
+		xhr.send();
+		xhr.onreadystatechange = () => {
+        if (4 === xhr['readyState']) {
+            if (200 === xhr['status']) {
+                const result = JSON.parse(xhr['responseText']);
+								resolve(result['result']);
+            } else
+							reject(new Error('can\'t get style info from server, please try again'));
+        }
+    };
+	});
+}
+
 class ChoseApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this['chose'] = this['chose'].bind(this);
+		this['exitStyleInfo'] = this['exitStyleInfo'].bind(this);
+	}
+
+	exitStyleInfo(event) {
+		this['props'].onExitStyleInfo();
 	}
 
 	chose(event) {
@@ -34,37 +58,45 @@ class ChoseApp extends React.Component {
 		));
 	}
 
+	renderStyleInfoHeader() {
+		const {btn_text, text_align} = this['props'];
+		return 'left' === text_align ? (
+			<div className='row'>
+					<span className='pull-right backChoseStyle' onClick={this.exitStyleInfo}>返回{btn_text}<span className='backIcon_right'></span></span>
+					<span className='pull-left btn_customization'><span className='pull-left customizationIcon_right'></span>没有喜欢的?</span>
+			</div>
+		): (
+			<div className='row'>
+					<span className='pull-left backChoseStyle' onClick={this.exitStyleInfo}><span className='backIcon'></span>返回{btn_text}</span>
+					<span className='pull-right btn_customization'><span className='pull-right customizationIcon'></span>没有喜欢的?</span>
+			</div>
+		);
+	}
+
+	renderStyleInfoItem() {
+		const {stylesheetItems} = this['props']['info'];
+		return stylesheetItems.map((it,key) => (
+			<div className='col-md-3 infoItem' onClick={this.chose} data-id={key}>
+					<img src={'/images/warehouse/' + it['thumbnail']} className='img-responsive center-block infoImage' />
+					<p>{it['name']}</p>
+			</div>
+		));
+	}
+
 	renderStyleInfo() {
-		const {btn_text, text_align, isInfo} = this['props'];
+		const {btn_text, text_align, info} = this['props'];
+		const {stylesheetInfo, type} = info;
 		return (
 			<div className='col-md-5 choiceJeaketApp_border'>
+				{this.renderStyleInfoHeader()}
 				<div className='row'>
-						<span className='pull-left backChoseStyle'><span className='backIcon'></span>返回选择上衣 </span>
-						<span className='pull-right btn_customization'>没有喜欢的?<span className='pull-right customizationIcon'></span></span>
-				</div>
-				<div className='row'>
-						<span className='styleFullName'>CARNES 上衣</span>
-						<small className='styleInfo'>建议零售价: 10k~15K</small>
-						<small className='styleInfo'>注意：最大体重不得超过80kg</small>
+						<span className='styleFullName'>{stylesheetInfo['name']} {type}</span>
+						<small className='styleInfo'>建议零售价: {stylesheetInfo['interval']}</small>
+						<small className='styleInfo'>注意：{stylesheetInfo['warning']}</small>
 				</div>
 				<div className='row'>
 						<span className='styleChose'>选择颜色</span>
-						<div className='col-md-3 infoItem'>
-								<img src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg' className='img-responsive center-block infoImage' />
-								<p>NAVY</p>
-						</div>
-						<div className='col-md-3 infoItem'>
-								<img src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg' className='img-responsive center-block infoImage'  />
-								<p>NAVY</p>
-						</div>
-						<div className='col-md-3 infoItem'>
-								<img src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg' className='img-responsive center-block infoImage'  />
-								<p>NAVY</p>
-						</div>
-						<div className='col-md-3 infoItem'>
-								<img src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg' className='img-responsive center-block infoImage' />
-								<p>NAVY</p>
-						</div>
+						{this.renderStyleInfoItem()}
 				</div>
 				<div className='btn_styleInfo'>
 						查看详情
@@ -93,7 +125,6 @@ class ShowApp extends React.Component {
 
 	renderSaveButton() {
 		const flag = this['props']['showSave'];
-		console.log(flag);
 		if (!flag) return;
 		return (
 			<span className='btn_saveChose'>保存方案</span>
@@ -116,13 +147,13 @@ class ShowApp extends React.Component {
 ChoseApp['defaultProps'] = {
 	items: [],
 	btn_text: '默认标题',
-	isInfo: true,
+	isInfo: false,
 	text_align: 'left'
 }
 
 ShowApp['defaultProps'] = {
 	jacket: 'default-men-top.png',
-	showSave: true,
+	showSave: false,
 	pants: 'default-men-bottom.png'
 }
 
@@ -161,34 +192,59 @@ class SeletedApp extends React.Component {
 			pantsItems: this['props']['pantsItems']
 		};
 		this['choseJacket'] = this['choseJacket'].bind(this);
+		this['exitJacketInfo'] = this['exitJacketInfo'].bind(this);
 		this['chosePants'] = this['chosePants'].bind(this);
+		this['exitPantsInfo'] = this['exitPantsInfo'].bind(this);
 	}
 
 	choseJacket(id,isInfo) {
 		const choseJacke = this['state']['jacketItems'][id];
-		if(!isInfo) isInfo = true;
-		this.setState({
-			choseJacket: choseJacke['representative'],
-			goToJacketInfo: isInfo
-		});
+		console.log(choseJacke);
+		getStyleInfomation(choseJacke['id']).then(data => {
+			if(!isInfo) isInfo = true;
+			this.setState({
+				choseJacket: choseJacke['representative'],
+				jacketInfo: {
+					stylesheetInfo:data['stylesheetInfo'],
+					type: '上衣',
+					stylesheetItems:data['stylesheetItems']
+				},
+				goToJacketInfo: isInfo
+			});
+		}).catch(error => console.log(error));
+	}
+
+	exitJacketInfo() {
+		this.setState({goToJacketInfo: false});
 	}
 
 	chosePants(id, isInfo) {
 		const chosePants = this['state']['pantsItems'][id];
-		if(!isInfo) isInfo = true;
-		this.setState({
-			chosePants: chosePants['representative'],
-			goToPantsInfo: isInfo
-		});
+		getStyleInfomation(chosePants['id']).then(data => {
+			if(!isInfo) isInfo = true;
+			this.setState({
+				chosePants: chosePants['representative'],
+				pantsInfo: {
+					stylesheetInfo:data['stylesheetInfo'],
+					type: '裤子',
+					stylesheetItems:data['stylesheetItems'],
+				},
+				goToPantsInfo: isInfo
+			});
+		}).catch(error => console.log(error));
+	}
+
+	exitPantsInfo() {
+		this.setState({goToPantsInfo: false});
 	}
 
 	render() {
-		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo} = this['state'] || {};
+		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo} = this['state'] || {};
 		return (
 			<div className="row">
-				<ChoseApp items={jacketItems} btn_text="选择上衣" text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo}/>
+				<ChoseApp items={jacketItems} info={jacketInfo} btn_text="选择上衣" text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo}/>
 				<ShowApp jacket={choseJacket} pants={chosePants} showSave={goToJacketInfo && goToPantsInfo}/>
-				<ChoseApp items={pantsItems} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo}/>
+				<ChoseApp items={pantsItems} info={pantsInfo} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo}/>
 				<ContrastBar />
 			</div>
 		);

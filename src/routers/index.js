@@ -10,8 +10,10 @@
  */
 "use strict";
 
-import common from "./common";
+import common from './common';
+import style from './style';
 
 export default function (router) {
     router.get("/", common['home']); // 首页
+    router.get('/json/style/styleInfo/:id', style['styleInfo']);
 };

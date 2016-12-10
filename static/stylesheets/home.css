@@ -12,9 +12,9 @@
 /**
 * style详情
 */
-
 .infoItem {
-    min-width: 110px;
+    min-width: 8.7em;
+    height: 13.5em;
     border: 0.1em solid rgba(0, 0, 0, 0);
     text-align: center;
     color: #999999;
@@ -64,11 +64,27 @@
     height: 21px;
 }
 
+.backIcon_right {
+  background: url(../images/back-to-list.png) no-repeat;
+  margin-top: 0.5rem;
+  padding-right: 1.8rem;
+  margin-left: 1.5rem;
+  width: 22px;
+  height: 21px;
+}
+
 .customizationIcon {
     background: url(../images/定制.png) no-repeat;
     padding-right: 1.5rem;
     width: 10px;
     height: 21px;
+}
+
+.customizationIcon_right {
+  background: url(../images/定制.png) no-repeat;
+  margin-left: 0.6rem;
+  width: 10px;
+  height: 21px;
 }
 
 .styleFullName {
@@ -213,13 +229,14 @@
 }
 
 .jacketStyle {
-    min-width: 110px;
+    min-width: 8.1em;
+    height: 13.5em;
     border: 0.1em solid rgba(0, 0, 0, 0);
 }
 
 .jacketStyle:hover {
     cursor: pointer;
-    border: 0.1em solid rgba(60, 118, 61, 0.48);
+    border: 0.1em solid #999999;
 }
 
 .jacketImage {
@@ -256,7 +273,7 @@
 
 .jacketName>h3 {
     text-align: center;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bolder;
     text-transform: uppercase;
     margin: 0 0 0 0;

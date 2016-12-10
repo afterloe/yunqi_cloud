@@ -17,5 +17,4 @@ function load(name) {
 };
 
 export const styleDao = load('style');
-// export const pantsDao = load('pants');
-
+export const warehouseDao = load('warehouse');

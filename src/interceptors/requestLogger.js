@@ -25,10 +25,15 @@ function parseLanguage(header) {
 
 };
 
+function success(data) {
+  return {code:200, error:null, result: data};
+}
+
 export default async function (ctx, next) {
     const [start, {ip = "0.0.0.0", header} ] = [new Date, ctx["request"]];
     ctx['requestIp'] = ip; // 绑定请求Ip到 this对象上
     ctx['language'] = parseLanguage(header); // 绑定语言
+    ctx['success'] = success;
     try {
         await next();
     } catch (error) {

@@ -1,5 +1,5 @@
 /**!
- * tru.jwis.cn -routers/common.js
+ * tru.jwis.cn - src/routers/common.js
  *
  * Copyright(c) afterloe.
  * ISC Licensed

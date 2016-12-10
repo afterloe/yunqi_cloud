@@ -14,6 +14,6 @@ import {styleDao} from '../dao';
 export default class JacketService {
 
 	static queryStylesheets() {
-		return styleDao.selectStylesheets(1);
+		return styleDao.queryStylesheets(1);
 	}
 }
