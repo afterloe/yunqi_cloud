@@ -8,11 +8,112 @@
  *   afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
  */
 
+
+/**
+* style详情
+*/
+
+.infoItem {
+    min-width: 110px;
+    border: 0.1em solid rgba(0, 0, 0, 0);
+    text-align: center;
+    color: #999999;
+}
+
+.infoItem:hover {
+    border: 0.1em solid #999999;
+    cursor: pointer;
+}
+
+.infoImage {
+    max-width: 100%;
+    padding-bottom: 0.5rem;
+    display: block;
+    border: 0;
+}
+
+.backChoseStyle {
+    display: inherit;
+    border: 1px solid #000;
+    font-size: 16px;
+    width: 13rem;
+    height: 3rem;
+    text-align: center;
+    font-weight: 600;
+    line-height: 3rem;
+    cursor: pointer;
+    margin: 1rem 0 1rem 1.2rem;
+}
+
+.btn_customization {
+    margin: 1rem 0rem 1rem 1.2rem;
+    width: 11rem;
+    border: 1px solid #ddd;
+    text-align: center;
+    color: #777;
+    padding-top: 0.4rem;
+    cursor: pointer;
+    height: 2.7rem;
+}
+
+.backIcon {
+    background: url(../images/back-to-list.png) no-repeat;
+    margin-top: 0.5rem;
+    padding-right: 3rem;
+    width: 22px;
+    height: 21px;
+}
+
+.customizationIcon {
+    background: url(../images/定制.png) no-repeat;
+    padding-right: 1.5rem;
+    width: 10px;
+    height: 21px;
+}
+
+.styleFullName {
+    display: -webkit-box;
+    margin: 1rem 0 1rem 1.2rem;
+    font-weight: bolder;
+    font-size: 3rem;
+}
+
+.styleInfo {
+    display: -webkit-box;
+    margin: 0 0 0 1.2rem;
+    color: #666666;
+    font-size: 1.3rem;
+}
+
+.styleChose {
+    display: -webkit-box;
+    margin: 2rem 0 0.3rem 1.2rem;
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.btn_styleInfo {
+    border: 1px solid;
+    display: -webkit-inline-box;
+    font-size: 15px;
+    background-color: #000;
+    color: #f5f5f5;
+    margin-top: 2rem;
+    max-width: 100%;
+    cursor: pointer;
+    padding: 0.3rem 1.2rem 0.3rem 1.2rem;
+}
+
+
+/**
+* 推荐框
+*/
+
 .contrast_bar {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -18em;
+    bottom: 0rem;
     background-color: #e6e6e6;
     color: #9d9d9d;
     height: 12.5em;
@@ -53,6 +154,11 @@
     border-radius: 0.6em;
 }
 
+
+/**
+* showApp
+*/
+
 .jacket {
     position: relative;
     display: block;
@@ -79,15 +185,31 @@
     z-index: 0;
 }
 
+.btn_saveChose {
+    text-align: center;
+    display: inherit;
+    font-size: 18px;
+    width: 10rem;
+    margin-left: 2rem;
+    background-color: orangered;
+    color: #f5f5f5;
+    cursor: pointer;
+    border-radius: 0.3em;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    margin-top: 1.5em;
+}
+
+
+/**
+* choseApp
+*/
+
 .choiceJeaketApp_border {
     background: -webkit-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
-    /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
-    /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
-    /* Firefox 3.6 - 15 */
     background: linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
-    /* 标准的语法 */
 }
 
 .jacketStyle {
