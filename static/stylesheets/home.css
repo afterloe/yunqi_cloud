@@ -12,16 +12,18 @@
 /**
 * style详情
 */
+
 .infoItem {
-    min-width: 8.7em;
-    height: 13.5em;
+    max-width: 7.5rem;
+    height: 13.5rem;
     border: 0.1em solid rgba(0, 0, 0, 0);
+    font-size: 13px;
     text-align: center;
     color: #999999;
 }
 
 .infoItem:hover {
-    border: 0.1em solid #999999;
+    border: 0.1em solid #31708f;
     cursor: pointer;
 }
 
@@ -42,11 +44,11 @@
     font-weight: 600;
     line-height: 3rem;
     cursor: pointer;
-    margin: 1rem 0 1rem 1.2rem;
+    margin: 1rem 1.2rem 1rem 1.2rem;
 }
 
 .btn_customization {
-    margin: 1rem 0rem 1rem 1.2rem;
+    margin: 1rem 0 1rem 0;
     width: 11rem;
     border: 1px solid #ddd;
     text-align: center;
@@ -57,7 +59,7 @@
 }
 
 .backIcon {
-    background: url(../images/back-to-list.png) no-repeat;
+    background: url(/images/back-to-list.png) no-repeat;
     margin-top: 0.5rem;
     padding-right: 3rem;
     width: 22px;
@@ -65,26 +67,26 @@
 }
 
 .backIcon_right {
-  background: url(../images/back-to-list.png) no-repeat;
-  margin-top: 0.5rem;
-  padding-right: 1.8rem;
-  margin-left: 1.5rem;
-  width: 22px;
-  height: 21px;
+    background: url(/images/back-to-list.png) no-repeat;
+    margin-top: 0.5rem;
+    padding-right: 1.8rem;
+    margin-left: 1.5rem;
+    width: 22px;
+    height: 21px;
 }
 
 .customizationIcon {
-    background: url(../images/定制.png) no-repeat;
+    background: url(/images/定制.png) no-repeat;
     padding-right: 1.5rem;
     width: 10px;
     height: 21px;
 }
 
 .customizationIcon_right {
-  background: url(../images/定制.png) no-repeat;
-  margin-left: 0.6rem;
-  width: 10px;
-  height: 21px;
+    background: url(/images/定制.png) no-repeat;
+    margin-left: 0.6rem;
+    width: 10px;
+    height: 21px;
 }
 
 .styleFullName {
@@ -120,25 +122,49 @@
     padding: 0.3rem 1.2rem 0.3rem 1.2rem;
 }
 
+.chosed {
+    border: 0.1em solid #666666;
+}
+
 
 /**
 * 推荐框
 */
 
+.closeContrastBar {
+    background: url(/images/推荐删除按钮.png) no-repeat;
+    cursor: pointer;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.contrast_position {
+    margin-top: 5rem;
+}
+
+.contrast_plan_row {
+    margin-top: 0.4rem;
+}
+
+.hidden_bar {
+    height: 1.85rem;
+    color: #999999;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
 .contrast_bar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0rem;
     background-color: #e6e6e6;
     color: #9d9d9d;
-    height: 12.5em;
+    height: 14em;
     text-align: center;
+    padding-top: 1rem;
 }
 
 .contrast_title {
     color: #666666;
-    margin-top: 12px;
     font-size: 18px;
     font-weight: border;
 }
@@ -146,17 +172,13 @@
 .contrast_plan {}
 
 .contrast_plan>span {
-    border: 0.1em solid #CCC;
-    width: 5.5em;
+    border: 0.1em solid #9d9d9d;
+    width: 5.1rem;
     margin-top: 0.7em;
     margin-right: 4.5em;
-    height: 6.4em;
+    background: url(/images/default-combo.jpg) no-repeat;
+    height: 6.8rem;
     display: -webkit-inline-box;
-}
-
-.contrast_plan>span:hover {
-    border: 0.1em solid #000000;
-    cursor: pointer;
 }
 
 .contrast_btn {
@@ -168,6 +190,18 @@
     height: 1.9em;
     padding: 0.23em;
     border-radius: 0.6em;
+}
+
+.prohibit:hover {
+    cursor: url(/images/编辑删除.png), default;
+}
+
+.prohibit {
+    cursor: url(/images/编辑删除.png), default;
+}
+
+.contrast_plan>span:hover {
+    border: 0.1em solid #777;
 }
 
 
@@ -221,6 +255,13 @@
 * choseApp
 */
 
+.styleDescribe {
+    margin-top: 1rem;
+    font-size: 9px;
+    color: #9d9d9d;
+    line-height: 1.5;
+}
+
 .choiceJeaketApp_border {
     background: -webkit-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
     background: -o-linear-gradient(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0));
@@ -236,7 +277,7 @@
 
 .jacketStyle:hover {
     cursor: pointer;
-    border: 0.1em solid #999999;
+    border: 0.1em solid #31708f;
 }
 
 .jacketImage {

@@ -33,6 +33,11 @@ class ChoseApp extends React.Component {
 		super(props);
 		this['chose'] = this['chose'].bind(this);
 		this['exitStyleInfo'] = this['exitStyleInfo'].bind(this);
+		this['changeDescribeState'] = this['changeDescribeState'].bind(this);
+	}
+
+	changeDescribeState(event) {
+		this.setState((prevState, props) => ({showDescribe: !prevState['showDescribe']}));
 	}
 
 	exitStyleInfo(event) {
@@ -58,6 +63,17 @@ class ChoseApp extends React.Component {
 		));
 	}
 
+	renderStyleInfoItem() {
+		const {info, choseItem = 0} = this['props'];
+		const {stylesheetItems} = info;
+		return stylesheetItems.map((it,key) => (
+			<div className={key == choseItem? 'col-md-3 infoItem chosed' : 'col-md-3 infoItem' } onClick={this.chose} data-id={key}>
+					<img src={'/images/warehouse/' + it['thumbnail']} className='img-responsive center-block infoImage' />
+					<p>{it['name']}</p>
+			</div>
+		));
+	}
+
 	renderStyleInfoHeader() {
 		const {btn_text, text_align} = this['props'];
 		return 'left' === text_align ? (
@@ -73,34 +89,26 @@ class ChoseApp extends React.Component {
 		);
 	}
 
-	renderStyleInfoItem() {
-		const {stylesheetItems} = this['props']['info'];
-		return stylesheetItems.map((it,key) => (
-			<div className='col-md-3 infoItem' onClick={this.chose} data-id={key}>
-					<img src={'/images/warehouse/' + it['thumbnail']} className='img-responsive center-block infoImage' />
-					<p>{it['name']}</p>
-			</div>
-		));
-	}
-
 	renderStyleInfo() {
-		const {btn_text, text_align, info} = this['props'];
+		const {info} = this['props'];
 		const {stylesheetInfo, type} = info;
+		const {showDescribe} = this['state'] || {};
 		return (
 			<div className='col-md-5 choiceJeaketApp_border'>
 				{this.renderStyleInfoHeader()}
 				<div className='row'>
 						<span className='styleFullName'>{stylesheetInfo['name']} {type}</span>
 						<small className='styleInfo'>建议零售价: {stylesheetInfo['interval']}</small>
-						<small className='styleInfo'>注意：{stylesheetInfo['warning']}</small>
+						<small className='styleInfo'>注意：{stylesheetInfo['warning'] || "无"}</small>
 				</div>
 				<div className='row'>
 						<span className='styleChose'>选择颜色</span>
 						{this.renderStyleInfoItem()}
 				</div>
-				<div className='btn_styleInfo'>
+				<div className='btn_styleInfo' onClick={this.changeDescribeState}>
 						查看详情
 				</div>
+				<div className='styleDescribe'>{showDescribe? stylesheetInfo['describe']:''}</div>
 			</div>
 		);
 	}
@@ -164,20 +172,59 @@ class ContrastBar extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this['changeActionBar'] = this['changeActionBar'].bind(this);
+		this['state'] = {
+			hidden_barName : '方案对比',
+			action_barName : '精品推荐'
+		}
+	}
+
+	changeActionBar(event) {
+		this.setState((prevState, props) => {
+			let interim = prevState['hidden_barName'];
+			return {
+				hidden_barName: prevState['action_barName'],
+				action_barName: interim
+			};
+		});
+	}
+
+	renderSelectedContrastBar() {
+		const {hidden_barName, action_barName} = this['state'];
+		return (
+			<div className='row contrast_position'>
+				<div className='hidden_bar'>{hidden_barName}</div>
+				<div className='contrast_bar'>
+						<div className='container contrast_title'>{action_barName}<span className='pull-right closeContrastBar' onClick={this.changeActionBar}></span></div>
+						<div className='contrast_plan'>
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+				</div>
+			</div>
+		);
 	}
 
 	render() {
+		if(this['props']['showRecommend']) return this.renderSelectedContrastBar();
 		return (
-			<div className='contrast_bar'>
-					<div className='contrast_title'>方案对比</div>
-					<div className='contrast_plan'>
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-					<div><span className='contrast_btn' >对比</span></div>
+			<div className='row contrast_position'>
+				<div className='contrast_bar'>
+						<div className='contrast_title'>方案对比</div>
+						<div className='contrast_plan'>
+							<span className='prohibit'></span>
+							<span className='prohibit'></span>
+							<span className='prohibit'></span>
+							<span className='prohibit'></span>
+							<span className='prohibit'></span>
+						</div>
+						<div className='contrast_plan_row'>
+							<span className='contrast_btn prohibit'>对比</span>
+						</div>
+				</div>
 			</div>
 		);
 	}
@@ -198,20 +245,26 @@ class SeletedApp extends React.Component {
 	}
 
 	choseJacket(id,isInfo) {
-		const choseJacke = this['state']['jacketItems'][id];
-		console.log(choseJacke);
-		getStyleInfomation(choseJacke['id']).then(data => {
-			if(!isInfo) isInfo = true;
+		if (!isInfo) {
+			const choseJacke = this['state']['jacketItems'][id];
+			getStyleInfomation(choseJacke['id']).then(data => {
+				this.setState({
+					choseJacket: choseJacke['representative'],
+					jacketInfo: {
+						stylesheetInfo:data['stylesheetInfo'],
+						type: '上衣',
+						stylesheetItems:data['stylesheetItems']
+					},
+					goToJacketInfo: true
+				});
+			}).catch(error => console.log(error));
+		} else {
+			const choseJacke = this['state']['jacketInfo']['stylesheetItems'][id];
 			this.setState({
-				choseJacket: choseJacke['representative'],
-				jacketInfo: {
-					stylesheetInfo:data['stylesheetInfo'],
-					type: '上衣',
-					stylesheetItems:data['stylesheetItems']
-				},
-				goToJacketInfo: isInfo
+				choseJacket: choseJacke['thumbnail'],
+				choseJacketItem: id
 			});
-		}).catch(error => console.log(error));
+		}
 	}
 
 	exitJacketInfo() {
@@ -219,19 +272,26 @@ class SeletedApp extends React.Component {
 	}
 
 	chosePants(id, isInfo) {
-		const chosePants = this['state']['pantsItems'][id];
-		getStyleInfomation(chosePants['id']).then(data => {
-			if(!isInfo) isInfo = true;
+		if (!isInfo) {
+			const chosePants = this['state']['pantsItems'][id];
+			getStyleInfomation(chosePants['id']).then(data => {
+				this.setState({
+					chosePants: chosePants['representative'],
+					pantsInfo: {
+						stylesheetInfo:data['stylesheetInfo'],
+						type: '裤子',
+						stylesheetItems:data['stylesheetItems'],
+					},
+					goToPantsInfo: true
+				});
+			}).catch(error => console.log(error));
+		} else {
+			const chosePants = this['state']['pantsInfo']['stylesheetItems'][id];
 			this.setState({
-				chosePants: chosePants['representative'],
-				pantsInfo: {
-					stylesheetInfo:data['stylesheetInfo'],
-					type: '裤子',
-					stylesheetItems:data['stylesheetItems'],
-				},
-				goToPantsInfo: isInfo
+				chosePants: chosePants['thumbnail'],
+				chosePantsItem: id
 			});
-		}).catch(error => console.log(error));
+		}
 	}
 
 	exitPantsInfo() {
@@ -239,13 +299,18 @@ class SeletedApp extends React.Component {
 	}
 
 	render() {
-		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo} = this['state'] || {};
+		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo, choseJacketItem, chosePantsItem} = this['state'] || {};
+		const flag = goToJacketInfo && goToPantsInfo;
 		return (
-			<div className="row">
-				<ChoseApp items={jacketItems} info={jacketInfo} btn_text="选择上衣" text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo}/>
-				<ShowApp jacket={choseJacket} pants={chosePants} showSave={goToJacketInfo && goToPantsInfo}/>
-				<ChoseApp items={pantsItems} info={pantsInfo} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo}/>
-				<ContrastBar />
+			<div>
+				<div className='container'>
+					<div className='row'>
+						<ChoseApp items={jacketItems} info={jacketInfo} choseItem={choseJacketItem} btn_text="选择上衣"  text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo}/>
+						<ShowApp jacket={choseJacket} pants={chosePants} showSave={flag}/>
+						<ChoseApp items={pantsItems} info={pantsInfo} choseItem={chosePantsItem} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo}/>
+					</div>
+				</div>
+				<ContrastBar showRecommend={flag}/>
 			</div>
 		);
 	}

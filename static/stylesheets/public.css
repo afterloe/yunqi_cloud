@@ -6,11 +6,12 @@
  *	 afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
  *
  */
- body {
+ html,body {
  	font-family: "Microsoft YaHei" ! important;
 	cursor: default;
 	min-width: 12.8em;
-	min-height: 8.8em;
+  margin:0;
+  height: 100%
  }
 
 .nav {
@@ -26,7 +27,7 @@
 	position: relative;
 	top: 10px;
 	display: inline-block;
-	background: url(../images/销售配置器.png) no-repeat;
+	background: url(/images/销售配置器.png) no-repeat;
 }
 
 .nav_logo {
@@ -36,10 +37,9 @@
 	top: 10px;
 	left: 20px;
 	height: 44px;
-	background: url(../images/LOGO.png) no-repeat;
+	background: url(/images/LOGO.png) no-repeat;
 }
 
 ul li{
 	list-style: none;
 }
-
