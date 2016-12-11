@@ -129,13 +129,18 @@ class ChoseApp extends React.Component {
 class ShowApp extends React.Component {
 	constructor(props) {
 		super(props);
+		this['saveScheme'] = this['saveScheme'].bind(this);
+	}
+
+	saveScheme(event) {
+		this['props'].onSaveScheme();
 	}
 
 	renderSaveButton() {
 		const flag = this['props']['showSave'];
 		if (!flag) return;
 		return (
-			<span className='btn_saveChose'>保存方案</span>
+			<span className='btn_saveChose' onClick={this.saveScheme}>保存方案</span>
 		);
 	}
 
@@ -143,8 +148,8 @@ class ShowApp extends React.Component {
 		const saveButton = this.renderSaveButton();
 		return (
 			<div className='col-md-2'>
-				<img className='jacket' src={'/images/warehouse/' + this['props']['jacket']} />
-				<img className='pants' src={'/images/warehouse/' + this['props']['pants']} />
+				<img className='jacket' src={'/images/warehouse/' + this['props']['jacket']['thumbnail']} />
+				<img className='pants' src={'/images/warehouse/' + this['props']['pants']['thumbnail']} />
 				<img className='shadow' src='/images/warehouse/bottom-shadow.png' />
 				{saveButton}
 			</div>
@@ -160,9 +165,9 @@ ChoseApp['defaultProps'] = {
 }
 
 ShowApp['defaultProps'] = {
-	jacket: 'default-men-top.png',
+	jacket: {thumbnail : 'default-men-top.png'},
 	showSave: false,
-	pants: 'default-men-bottom.png'
+	pants: {thumbnail: 'default-men-bottom.png'}
 }
 
 const data = parseData();
@@ -173,10 +178,25 @@ class ContrastBar extends React.Component {
 	constructor(props) {
 		super(props);
 		this['changeActionBar'] = this['changeActionBar'].bind(this);
+		this['choiceScheme'] = this['choiceScheme'].bind(this);
+		this['addContrastItem'] = this['addContrastItem'].bind(this);
 		this['state'] = {
+			checkedItem: new Set(),
 			hidden_barName : '方案对比',
 			action_barName : '精品推荐'
 		}
+	}
+
+	choiceScheme(event) {
+		this.setState((prevState, props) => {
+			const checkedItem = prevState['checkedItem'];
+			checkedItem.clear();
+
+			return {
+				isEdit:!prevState['isEdit'],
+				checkedItem
+			};
+		});
 	}
 
 	changeActionBar(event) {
@@ -189,19 +209,103 @@ class ContrastBar extends React.Component {
 		});
 	}
 
+	addContrastItem(event) {
+		const {isEdit} = this['state'];
+		const checkedId  = Number.parseInt(event['currentTarget'].getAttribute('data-id'));
+		if (!isEdit) {
+			this.setState((prevState, props) => {
+					const checkedItem = prevState['checkedItem'];
+					checkedItem.has(checkedId) ? checkedItem.delete(checkedId): checkedItem.add(checkedId);
+					return checkedItem;
+			});
+		} else {
+			this['props'].onDeleteContrastItem(checkedId);
+		}
+	}
+
+	renderBtn() {
+		const {action_barName, isEdit} = this['state'];
+		return '精品推荐' === action_barName? (<span className='pull-right closeContrastBar' onClick={this.changeActionBar}></span>):
+			(<span className='pull-right choiceScheme' onClick={this.choiceScheme}>{isEdit? '取消':'编辑'}</span>);
+	}
+
+	renderRecommendScheme(activityName) {
+			if ('精品推荐' !== activityName) return ;
+			return (
+				<div>
+					<span className='contrast_none'></span>
+					<span className='contrast_none'></span>
+					<span className='contrast_none'></span>
+				</div>
+			);
+	}
+
+	renderCustomScheme(activityName) {
+			if ('方案对比' !== activityName) return this.renderRecommendScheme(activityName);
+			const [{schemeItem = []}, {checkedItem, isEdit}, checked] = [this['props'], this['state'], (<span className='checkItem'></span>)];
+			const deleteItem = isEdit? (<span className='deleteItem'></span>): '';
+			const items = schemeItem.map((item, key) => (
+				<span className='contrast' onClick={this.addContrastItem} data-id={key}>
+					{checkedItem.has(key)? checked:''}
+					{deleteItem}
+					<img className='miniView-jacket' src={'/images/warehouse/' + item['choseJacket']['thumbnail']} />
+					<img className='miniView-pants' src={'/images/warehouse/' + item['chosePants']['thumbnail']} />
+				</span>
+			));
+			return (
+				<div>
+					{items}
+				</div>
+			);
+	}
+
+	renderScheme() {
+			const {action_barName} = this['state'];
+			return this.renderCustomScheme(action_barName);
+	}
+
+	renderBottomBtn() {
+		const {checkedItem, action_barName} = this['state'];
+		if ('方案对比' !== action_barName) return ;
+		return checkedItem && checkedItem.size > 1 ? (
+			<div className='contrast_plan_row'>
+				<span className='contrast_btn_confirm'></span>
+			</div>
+		):(
+			<div className='contrast_plan_row'>
+				<span className='contrast_btn_prohibit'></span>
+			</div>
+		);
+	}
+
 	renderSelectedContrastBar() {
 		const {hidden_barName, action_barName} = this['state'];
 		return (
 			<div className='row contrast_position'>
-				<div className='hidden_bar'>{hidden_barName}</div>
+				<div className='hidden_bar' onClick={this.changeActionBar} >{hidden_barName}</div>
 				<div className='contrast_bar'>
-						<div className='container contrast_title'>{action_barName}<span className='pull-right closeContrastBar' onClick={this.changeActionBar}></span></div>
-						<div className='contrast_plan'>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
+						<div className='container contrast_title'>{action_barName} {this.renderBtn()}</div>
+						{this.renderScheme()}
+						{this.renderBottomBtn()}
+				</div>
+			</div>
+		);
+	}
+
+	renderDefaultBar() {
+		return (
+			<div className='row contrast_position'>
+				<div className='contrast_bar'>
+						<div className='contrast_title'>{this['state']['hidden_barName']}</div>
+						<div>
+							<span className='contrast_none'></span>
+							<span className='contrast_none'></span>
+							<span className='contrast_none'></span>
+							<span className='contrast_none'></span>
+							<span className='contrast_none'></span>
+						</div>
+						<div className='contrast_plan_row'>
+							<span className='contrast_btn_prohibit'></span>
 						</div>
 				</div>
 			</div>
@@ -209,24 +313,9 @@ class ContrastBar extends React.Component {
 	}
 
 	render() {
-		if(this['props']['showRecommend']) return this.renderSelectedContrastBar();
-		return (
-			<div className='row contrast_position'>
-				<div className='contrast_bar'>
-						<div className='contrast_title'>方案对比</div>
-						<div className='contrast_plan'>
-							<span className='prohibit'></span>
-							<span className='prohibit'></span>
-							<span className='prohibit'></span>
-							<span className='prohibit'></span>
-							<span className='prohibit'></span>
-						</div>
-						<div className='contrast_plan_row'>
-							<span className='contrast_btn prohibit'>对比</span>
-						</div>
-				</div>
-			</div>
-		);
+		const schemeItem = this['props']['schemeItem'];
+		if(schemeItem && schemeItem.length > 0) return this.renderSelectedContrastBar();
+		return this.renderDefaultBar();
 	}
 }
 
@@ -234,14 +323,16 @@ class SeletedApp extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this['state'] = {
-			jacketItems: this['props']['jacketItems'],
-			pantsItems: this['props']['pantsItems']
-		};
 		this['choseJacket'] = this['choseJacket'].bind(this);
 		this['exitJacketInfo'] = this['exitJacketInfo'].bind(this);
 		this['chosePants'] = this['chosePants'].bind(this);
 		this['exitPantsInfo'] = this['exitPantsInfo'].bind(this);
+		this['saveScheme'] = this['saveScheme'].bind(this);
+		this['deleteContrastItem'] = this['deleteContrastItem'].bind(this);
+		this['state'] = {
+			jacketItems: this['props']['jacketItems'],
+			pantsItems: this['props']['pantsItems']
+		};
 	}
 
 	choseJacket(id,isInfo) {
@@ -249,11 +340,11 @@ class SeletedApp extends React.Component {
 			const choseJacke = this['state']['jacketItems'][id];
 			getStyleInfomation(choseJacke['id']).then(data => {
 				this.setState({
-					choseJacket: choseJacke['representative'],
+					choseJacket: data['stylesheetItems'][0],
 					jacketInfo: {
 						stylesheetInfo:data['stylesheetInfo'],
 						type: '上衣',
-						stylesheetItems:data['stylesheetItems']
+						stylesheetItems: data['stylesheetItems']
 					},
 					goToJacketInfo: true
 				});
@@ -261,7 +352,7 @@ class SeletedApp extends React.Component {
 		} else {
 			const choseJacke = this['state']['jacketInfo']['stylesheetItems'][id];
 			this.setState({
-				choseJacket: choseJacke['thumbnail'],
+				choseJacket: choseJacke,
 				choseJacketItem: id
 			});
 		}
@@ -276,7 +367,7 @@ class SeletedApp extends React.Component {
 			const chosePants = this['state']['pantsItems'][id];
 			getStyleInfomation(chosePants['id']).then(data => {
 				this.setState({
-					chosePants: chosePants['representative'],
+					chosePants: data['stylesheetItems'][0],
 					pantsInfo: {
 						stylesheetInfo:data['stylesheetInfo'],
 						type: '裤子',
@@ -288,7 +379,7 @@ class SeletedApp extends React.Component {
 		} else {
 			const chosePants = this['state']['pantsInfo']['stylesheetItems'][id];
 			this.setState({
-				chosePants: chosePants['thumbnail'],
+				chosePants: chosePants,
 				chosePantsItem: id
 			});
 		}
@@ -298,19 +389,44 @@ class SeletedApp extends React.Component {
 		this.setState({goToPantsInfo: false});
 	}
 
+	addScheme(obj) {
+		const {choseJacket, chosePants} = obj;
+		const flag = this.find(item => item['choseJacket']['id'] === choseJacket['id'] && item['chosePants']['id'] === chosePants['id']);
+		console.log(flag);
+		if(flag || this.length> 5) return;
+		this.push(obj);
+	}
+
+	saveScheme() {
+		const [{choseJacket, chosePants}, __self] = [this['state'], this];
+		this.setState((prevState, props) => {
+			let schemeItem = prevState['schemeItem'] || [];
+			__self.addScheme.call(schemeItem, {choseJacket, chosePants});
+			return {schemeItem};
+		});
+	}
+
+	deleteContrastItem(checkedId) {
+		this.setState((prevState, props) => {
+			let schemeItem = prevState['schemeItem'] || [];
+			if(schemeItem[checkedId]) schemeItem.splice(checkedId,1);
+			return {schemeItem};
+		});
+	}
+
 	render() {
-		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo, choseJacketItem, chosePantsItem} = this['state'] || {};
+		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo, choseJacketItem, chosePantsItem, schemeItem} = this['state'] || {};
 		const flag = goToJacketInfo && goToPantsInfo;
 		return (
 			<div>
 				<div className='container'>
 					<div className='row'>
 						<ChoseApp items={jacketItems} info={jacketInfo} choseItem={choseJacketItem} btn_text="选择上衣"  text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo}/>
-						<ShowApp jacket={choseJacket} pants={chosePants} showSave={flag}/>
+						<ShowApp jacket={choseJacket} pants={chosePants} showSave={flag} onSaveScheme={this.saveScheme}/>
 						<ChoseApp items={pantsItems} info={pantsInfo} choseItem={chosePantsItem} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo}/>
 					</div>
 				</div>
-				<ContrastBar showRecommend={flag}/>
+				<ContrastBar schemeItem={schemeItem} onDeleteContrastItem={this.deleteContrastItem} />
 			</div>
 		);
 	}

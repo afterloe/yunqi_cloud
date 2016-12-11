@@ -11,7 +11,7 @@
 
 const sqlMap = new Map();
 
-sqlMap.set('queryStylesheetItems','SELECT name,price,color,repertory,thumbnail,cycle,hot FROM warehouse WHERE style = $style');
+sqlMap.set('queryStylesheetItems','SELECT id,name,price,color,repertory,thumbnail,cycle,hot FROM warehouse WHERE style = $style');
 
 export default sequelize => sequelize.define({
 	queryStylesheetItems: function (__style) {
