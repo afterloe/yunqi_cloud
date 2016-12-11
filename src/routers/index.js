@@ -14,6 +14,7 @@ import common from './common';
 import style from './style';
 
 export default function (router) {
-    router.get("/", common['home']); // 首页
-    router.get('/json/style/styleInfo/:id', style['styleInfo']);
+    router.get('/', common['home']); // 页面 - 销售配置器首页
+    router.get('/compare', common['compare']); //页面 - 选配项比较页
+    router.get('/json/style/styleInfo/:id', style['styleInfo']); // JSON - 获取style下的所有信息
 };

@@ -1,0 +1,16 @@
+include header
+
+#body
+
+include footer
+
+script(type="text/javascript").
+  function getData() {
+    try {
+      return JSON.parse(localStorage['compare']);
+    } catch(error) {
+      return null;
+    }
+  }
+script(type="text/babel" src="/javascripts/compare.js")
+link(rel="stylesheet" href="/stylesheets/compare.css")
