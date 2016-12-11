@@ -180,6 +180,7 @@ class ContrastBar extends React.Component {
 		this['changeActionBar'] = this['changeActionBar'].bind(this);
 		this['choiceScheme'] = this['choiceScheme'].bind(this);
 		this['addContrastItem'] = this['addContrastItem'].bind(this);
+		this['confirmCompare'] = this['confirmCompare'].bind(this);
 		this['state'] = {
 			checkedItem: new Set(),
 			hidden_barName : '方案对比',
@@ -191,7 +192,6 @@ class ContrastBar extends React.Component {
 		this.setState((prevState, props) => {
 			const checkedItem = prevState['checkedItem'];
 			checkedItem.clear();
-
 			return {
 				isEdit:!prevState['isEdit'],
 				checkedItem
@@ -221,6 +221,11 @@ class ContrastBar extends React.Component {
 		} else {
 			this['props'].onDeleteContrastItem(checkedId);
 		}
+	}
+
+	confirmCompare(event) {
+			const {checkedItem} = this['state'];
+			this['props'].onBeginCompare([...checkedItem]);
 	}
 
 	renderBtn() {
@@ -269,7 +274,7 @@ class ContrastBar extends React.Component {
 		if ('方案对比' !== action_barName) return ;
 		return checkedItem && checkedItem.size > 1 ? (
 			<div className='contrast_plan_row'>
-				<span className='contrast_btn_confirm'></span>
+				<span className='contrast_btn_confirm' onClick={this.confirmCompare}></span>
 			</div>
 		):(
 			<div className='contrast_plan_row'>
@@ -329,6 +334,7 @@ class SeletedApp extends React.Component {
 		this['exitPantsInfo'] = this['exitPantsInfo'].bind(this);
 		this['saveScheme'] = this['saveScheme'].bind(this);
 		this['deleteContrastItem'] = this['deleteContrastItem'].bind(this);
+		this['beginCompare'] = this['beginCompare'].bind(this);
 		this['state'] = {
 			jacketItems: this['props']['jacketItems'],
 			pantsItems: this['props']['pantsItems']
@@ -414,6 +420,13 @@ class SeletedApp extends React.Component {
 		});
 	}
 
+	beginCompare(index) {
+			const {schemeItem} = this['state'];
+			const selectItems = index.map(i => schemeItem[i]);
+			localStorage['compare'] = JSON.stringify(selectItems);
+			window.open('/compare');
+	}
+
 	render() {
 		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo, choseJacketItem, chosePantsItem, schemeItem} = this['state'] || {};
 		const flag = goToJacketInfo && goToPantsInfo;
@@ -426,7 +439,7 @@ class SeletedApp extends React.Component {
 						<ChoseApp items={pantsItems} info={pantsInfo} choseItem={chosePantsItem} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo}/>
 					</div>
 				</div>
-				<ContrastBar schemeItem={schemeItem} onDeleteContrastItem={this.deleteContrastItem} />
+				<ContrastBar schemeItem={schemeItem} onBeginCompare={this.beginCompare} onDeleteContrastItem={this.deleteContrastItem} />
 			</div>
 		);
 	}

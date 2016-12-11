@@ -19,7 +19,9 @@ class SchemeContrast extends React.Component {
     }
 
     closeThisPage(event) {
-      history.go(-1);
+      window.opener=null;
+      window.open('','_self');
+      window.close();
     }
 
     renderSchemeItems() {
@@ -27,20 +29,21 @@ class SchemeContrast extends React.Component {
       return schemeItems.map(scheme => (
         <div className='col-md-3 schemeItem'>
             <div className='schemeViews'>
-                  <img className='mini-views' src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg'/>
+                  <img className='mini-views-jacket' src={'/images/warehouse/' + scheme['choseJacket']['thumbnail']}/>
+                  <img className='mini-views-pants' src={'/images/warehouse/' + scheme['chosePants']['thumbnail']}/>
             </div>
             <div className='simpleIist'>
                   <div className='simpleInfo'>
-                      <span className='styleType'>上衣 <span className='quickGo'></span></span>
-                      <p>价格: $225.00</p>
-                      <p>库存: 219</p>
-                      <p>交货周期 3~5天</p>
+                      <span className='styleType'>{scheme['choseJacket']['name']} <span className='quickGo'></span></span>
+                      <p>价格: {scheme['choseJacket']['price']}</p>
+                      <p>库存: {scheme['choseJacket']['repertory']}</p>
+                      <p>交货周期: {scheme['choseJacket']['cycle']} 天</p>
                   </div>
                   <div className='simpleInfo'>
-                      <span className='styleType'>上衣 <span className='quickGo'></span></span>
-                      <p>价格: $225.00</p>
-                      <p>库存: 219</p>
-                      <p>交货周期 3~5天</p>
+                      <span className='styleType'>{scheme['chosePants']['name']} <span className='quickGo'></span></span>
+                      <p>价格: {scheme['chosePants']['price']}</p>
+                      <p>库存: {scheme['chosePants']['repertory']}</p>
+                      <p>交货周期: {scheme['chosePants']['cycle']} 天</p>
                   </div>
             </div>
         </div>
@@ -69,10 +72,13 @@ class CompareInfo extends React.Component {
   }
 
   renderCompareImage() {
-    const {values} = this['props'];
+    const {values, keyWord} = this['props'];
     return values.map(item => (
       <div className='col-md-3 compareImage'>
-          <img src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg' />
+          {'上衣' === keyWord?
+            (<img className='mini-views' src={'/images/warehouse/' + item['choseJacket']['thumbnail']} />):
+            (<img className='mini-views' src={'/images/warehouse/' + item['chosePants']['thumbnail']} />)
+          }
       </div>
     ));
   }
@@ -110,7 +116,7 @@ class Compare extends React.Component {
   }
 
   render() {
-    const values = [1,3];
+    const {values} = this['props'];
     const {activeKey} = this['state'];
     const type = '图片对比' === activeKey? 'image':'props';
     return (
@@ -127,6 +133,6 @@ class Compare extends React.Component {
 }
 
 ReactDOM.render(
- <Compare keys={['属性对比', '图片对比']}/>,
+ <Compare keys={['属性对比', '图片对比']} values={data}/>,
  document.getElementById('body')
 );
