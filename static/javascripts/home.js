@@ -663,7 +663,6 @@ class SeletedApp extends React.Component {
 				<div className='container'>
 					<div className='row'>
 						<ChoseApp items={jacketItems} info={jacketInfo} choseItem={choseJacketItem} btn_text="选择上衣"  text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo} beginCustomization={this.beginCustomization} />
-
 						<ShowApp jacket={choseJacket} pants={chosePants} showSave={flag} onSaveScheme={this.saveScheme}/>
 						<ChoseApp items={pantsItems} info={pantsInfo} choseItem={chosePantsItem} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo} beginCustomization={this.beginCustomization} />
 					</div>

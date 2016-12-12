@@ -1,0 +1,92 @@
+/**
+ * tru.jwis.cn - /static/stylesheets/views.css
+ *
+ * Copyright(c) afterloe.
+ * ISC Licensed
+ *
+ * Authors:
+ *   afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
+ */
+
+.sellViews-addView {
+    font-size: 18px;
+    color: #666666;
+    cursor: pointer;
+}
+
+.compareValues {
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    margin-bottom: 1.5rem;
+    height: 50em;
+}
+
+.compareKeys {
+    font-size: 1.3em;
+    margin-left: 1rem;
+    margin-top: 2rem;
+    color: #666666;
+}
+
+.compareKeys>span {
+    display: -webkit-inline-box;
+    margin-right: 8rem;
+    padding: 0 0.8rem 0.5rem 2rem;
+    cursor: pointer;
+}
+
+.compareActive {
+    border-bottom: 0.3rem solid #dc3f14;
+}
+
+.sellViews-view {
+    position: absolute;
+    margin-top: 1.3rem;
+    height: 15rem;
+    width: 10rem;
+}
+
+.sellViews-view>img {
+    width: 100%
+}
+
+.sellViews-item {
+    border: 1px solid #666666;
+    margin: 1rem 1rem 1rem 2rem;
+    min-width: 25em;
+    height: 16rem;
+    border-radius: 0.5rem;
+}
+
+.sellViews-item:hover {
+    border: 1px solid #dc3f14;
+    cursor: pointer;
+}
+
+.sellViews-card {
+    padding-left: 11rem;
+    color: #333333;
+    padding-top: 1rem;
+}
+
+.sellViews-pri {
+    font-size: 18px;
+}
+
+.sellViews-info {
+    font-size: 14px;
+}
+
+.sellViews-other {
+    margin-top: 6rem;
+    font-size: 12px;
+}
+
+
+/**
+* public
+*/
+
+body {
+    background-color: #e6e6e6
+}

@@ -13,18 +13,31 @@ import jacketService from '../service/jacketService';
 import pantsService from '../service/pantsService';
 
 export default class Common {
-    static async compare(ctx, next) {
-      if (ctx.error) return next();
-      try {
-        ctx.render('compare', {
-          title: '对比'
-        });
-      } catch (error) {
-        console.log(error);
-        ctx.error = error;
-      }
 
-      return next();
+    static views(ctx, next) {
+        if (ctx.error) return next();
+        try {
+          ctx.render('views', {
+              title: '产品视图'
+          });
+        } catch (error) {
+
+        }
+
+        return next();
+    }
+
+    static async compare(ctx, next) {
+        if (ctx.error) return next();
+        try {
+            ctx.render('compare', {
+                title: '对比'
+            });
+        } catch (error) {
+            ctx.error = error;
+        }
+
+        return next();
     }
 
     static async home(ctx, next) {
@@ -38,7 +51,6 @@ export default class Common {
                 pantsStyles
             });
         } catch (error) {
-            console.log(error);
             ctx.error = error;
         }
         return next();
