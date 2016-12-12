@@ -12,6 +12,15 @@
  * AllocationApp
  */
 
+#colorDisc {
+    position: absolute;
+    left: 0;
+    display: inline;
+    left: -1080rem;
+    width: 0;
+    height: 0;
+}
+
 .allocation-view {
     position: absolute;
     margin-left: 25rem;
@@ -68,9 +77,60 @@
 .allocation-input {
     text-align: center;
     border: none;
+    border-bottom: 0.2rem solid #ccc;
     width: 6.78em;
     height: 2.9rem;
     color: #333333;
+}
+
+.allocation-add {
+    display: -webkit-inline-box;
+    position: absolute;
+    margin-top: 0.4rem;
+    margin-left: -1.5rem;
+    cursor: pointer;
+    width: 1.6rem;
+    background: url(/images/编辑添加.png) no-repeat;
+    height: 1.3rem;
+}
+
+.allocation-delete {
+    display: -webkit-inline-box;
+    position: absolute;
+    margin-top: 0.75rem;
+    margin-left: -1.5rem;
+    cursor: pointer;
+    width: 1.6rem;
+    background: url(/images/编辑删除.png) no-repeat;
+    height: 1.3rem;
+}
+
+.allocation-add-optionList {
+    display: inherit;
+    position: relative;
+    border: 1px solid #ddd;
+    width: 10.5rem;
+    text-align: center;
+    font-size: 14px;
+    overflow: hidden;
+    height: 20.7rem;
+    margin-left: 9rem;
+    margin-top: -1.8rem;
+}
+
+.allocation-add-option:hover {
+    height: 2.5rem;
+    background-color: #dc3d13;
+    cursor: pointer;
+    width: 10.25rem;
+    color: #f5f5f5;
+}
+
+.allocation-add-option {
+    height: 2.5rem;
+    padding-top: 0.5rem;
+    color: #777;
+    width: 10.25rem;
 }
 
 /**

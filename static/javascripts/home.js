@@ -29,33 +29,131 @@ function getStyleInfomation(id) {
 }
 
 class AllocationApp extends React.Component {
+
 	constructor(props) {
 		super(props);
+		this['openColorDisc'] = this['openColorDisc'].bind(this);
+		this['changColor'] = this['changColor'].bind(this);
+		this['changeOptions'] = this['changeOptions'].bind(this);
+		this['openOptionList'] = this['openOptionList'].bind(this);
+		this['addOption'] = this['addOption'].bind(this);
+		this['deleteOption'] = this['deleteOption'].bind(this);
+		this['state'] = {
+			choseColor: 'purple',
+			options_flag: '<',
+			configText: '编辑'
+		}
+	}
 
+	componentWillMount() {
+		const {options} = this['props'];
+		const [__options, ___options] = [[], []];
+		options.map((opt, index) => index < 5 ? __options.push(opt): ___options.push(opt));
+		this.setState({options: __options, props: ___options});
+	}
+
+	changColor(event) {
+		const value = event['currentTarget']['value'];
+		setTimeout(() => {
+			this.setState({choseColor: value});
+		}, 300);
+	}
+
+	openColorDisc(event) {
+		const element = document.getElementById('colorDisc');
+		element.click();
+	}
+
+	openOptionList(event) {
+		const {options_flag} = this['state'];
+		this.setState((prevState,props) => '<' === options_flag? ({options_flag: '>'}):({options_flag: '<'}));
+	}
+
+	changeOptions(event) {
+		this.setState((prevState, props) => '编辑' === prevState['configText']? ({configText:'完成',isConfig:true}):({configText:'编辑',isConfig:false}));
+	}
+
+	deleteOption(event) {
+		const index = event['currentTarget'].getAttribute('data-id');
+		this.setState((prevState, __props) => {
+			const {options, props} = prevState;
+			if(options[index]) {
+				props.push(options[index]);
+				options.splice(index,1);
+			}
+			return {options, props};
+		});
+	}
+
+	addOption(event) {
+		const index = event['currentTarget'].getAttribute('data-id');
+		this.setState((prevState, __props) => {
+			const {options, props} = prevState;
+			if(props[index]) {
+				options.push(props[index]);
+				props.splice(index, 1);
+			}
+			return {options_flag:'<', options, props};
+		});
+	}
+
+	renderOptions() {
+		const {options,isConfig} = this['state'];
+		return options.map((opt, key) => (
+			<div className='allocation-value'>
+				{ isConfig? (<span className='allocation-delete' data-id={key} onClick={this.deleteOption}></span>) : ''}
+				<span className='allocation-name'>{opt} ( CM ) </span>
+				<input className='allocation-input' data-input-id={key} />
+			</div>
+		));
+	}
+
+	renderHiddenOptionsList() {
+		const {options_flag, props} = this['state'];
+		if ('<' === options_flag) return ;
+		const options = props.map((opt,key) => (<div className='allocation-add-option' data-id={key} onClick={this.addOption}>{opt}</div>));
+		return (
+			<div className='allocation-add-optionList'>
+				{options}
+			</div>
+		);
+	}
+
+	renderAddOptions() {
+		const {isConfig, options_flag} = this['state'];
+		if (!isConfig) return;
+		return (
+			<div className='allocation-value'>
+				<span className='allocation-add' onClick={this.openOptionList}></span>
+				<span className='allocation-name' onClick={this.openOptionList}>添加选项 {options_flag}</span>
+				{this.renderHiddenOptionsList()}
+			</div>
+		);
 	}
 
 	render() {
+		const {choseColor, configText} = this['state'];
 		return (
 			<div className='col-md-6 choiceJeaketApp_border' style={{'margin-left': '2.5rem', background: '#ffffff'}}>
-				<div className='allocation-config'>编辑</div>
-				<div className='allocation-view'>
+				<div className='allocation-config' onClick={this.changeOptions}>{configText}</div>
+				<div className='allocation-view' style={{'background-color': choseColor}} >
+					<input type="color" id='colorDisc' onChange={this.changColor}/>
 					<img src='/images/warehouse/default-men-mould.png'/>
 				</div>
 				<div className='row'>
 					<span className='allocation-key'>COLOR</span>
-					<div className='allocation-color-chose'></div>
-					<span className='allocation-color-selected'>purple</span>
+					<div className='allocation-color-chose' style={{'background-color': choseColor}} onClick={this.openColorDisc}></div>
+					<span className='allocation-color-selected'>{choseColor}</span>
 				</div>
 				<div className='row'>
 					<span className='allocation-key'>SIZE</span>
 					<div className='allocation-values'>
-						<div className='allocation-value'><span className='allocation-name'>肩宽 ( CM ) </span><input className='allocation-input' /></div>
-						<div><span>肩宽 ( CM ) </span></div>
-						<div><span>肩宽 ( CM ) </span></div>
-						<div><span>肩宽 ( CM ) </span></div>
-						<div><span>肩宽 ( CM ) </span></div>
-						<div><span>肩宽 ( CM ) </span></div>
+						{this.renderOptions()}
+						{this.renderAddOptions()}
 					</div>
+				</div>
+				<div className='row'>
+					<span className='btn_saveChose'>提交定制方案</span>
 				</div>
 			</div>
 		);
@@ -266,6 +364,10 @@ class ShowApp extends React.Component {
 	}
 }
 
+AllocationApp['defaultProps'] = {
+	options : ['肩宽','胸围','腰围','臀围','袖长','背长','领围','手头','碗围','头围','袖孔','股上','总长']
+}
+
 ChoseApp['defaultProps'] = {
 	items: [],
 	btn_text: '默认标题',
@@ -448,7 +550,7 @@ class SeletedApp extends React.Component {
 		this['state'] = {
 			jacketItems: this['props']['jacketItems'],
 			pantsItems: this['props']['pantsItems'],
-			isCustomization: true
+//			isCustomization: true
 		};
 	}
 
