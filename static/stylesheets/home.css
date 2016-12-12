@@ -154,6 +154,7 @@
 }
 
 .hidden_bar {
+	padding-top: 0.4rem;
     height: 1.85rem;
     color: #999999;
     font-size: 12px;

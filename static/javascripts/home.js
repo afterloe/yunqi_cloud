@@ -403,11 +403,20 @@ class SeletedApp extends React.Component {
 		this.push(obj);
 	}
 
+	generatorScheme(choseItem, styleInfo) {
+		return Object.assign({
+			styleName: styleInfo['stylesheetInfo']['name'],
+			describe: styleInfo['stylesheetInfo']['describe'],
+			styleId: styleInfo['stylesheetInfo']['id']
+		}, choseItem);
+	}
+
 	saveScheme() {
-		const [{choseJacket, chosePants}, __self] = [this['state'], this];
+		const [{choseJacket, chosePants, jacketInfo, pantsInfo}, __self] = [this['state'], this];
+		const [jacket,pant] = [__self.generatorScheme(choseJacket, jacketInfo), __self.generatorScheme(chosePants, pantsInfo)];
 		this.setState((prevState, props) => {
 			let schemeItem = prevState['schemeItem'] || [];
-			__self.addScheme.call(schemeItem, {choseJacket, chosePants});
+			__self.addScheme.call(schemeItem, {choseJacket: jacket, chosePants: pant});
 			return {schemeItem};
 		});
 	}

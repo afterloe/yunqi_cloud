@@ -10,7 +10,26 @@
 "use strict";
 
 const data = getData();
-console.log(data);
+
+class SimpleInfo extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		const {type,data} = this['props'];
+		const {styleName, name, price, repertory, cycle} = data;
+		return (
+			<div className='simpleInfo'>
+				<span className='styleType'>{type} <span className='quickGo'></span></span>
+				<p>产品名: {styleName} - {name}</p>
+				<p>价格: {price}</p>
+				<p>库存: {repertory}</p>
+				<p>交货周期: {cycle} 天</p>
+			</div>
+		);
+	}
+}
 
 class SchemeContrast extends React.Component {
     constructor(props) {
@@ -33,18 +52,8 @@ class SchemeContrast extends React.Component {
                   <img className='mini-views-pants' src={'/images/warehouse/' + scheme['chosePants']['thumbnail']}/>
             </div>
             <div className='simpleIist'>
-                  <div className='simpleInfo'>
-                      <span className='styleType'>{scheme['choseJacket']['name']} <span className='quickGo'></span></span>
-                      <p>价格: {scheme['choseJacket']['price']}</p>
-                      <p>库存: {scheme['choseJacket']['repertory']}</p>
-                      <p>交货周期: {scheme['choseJacket']['cycle']} 天</p>
-                  </div>
-                  <div className='simpleInfo'>
-                      <span className='styleType'>{scheme['chosePants']['name']} <span className='quickGo'></span></span>
-                      <p>价格: {scheme['chosePants']['price']}</p>
-                      <p>库存: {scheme['chosePants']['repertory']}</p>
-                      <p>交货周期: {scheme['chosePants']['cycle']} 天</p>
-                  </div>
+				  <SimpleInfo type='上衣' data={scheme['choseJacket']} />
+				  <SimpleInfo type='裤子' data={scheme['chosePants']} />
             </div>
         </div>
       ));
@@ -67,8 +76,8 @@ class CompareInfo extends React.Component {
   }
 
   renderCompareValues() {
-    const {values} = this['props'];
-    return values.map(item => (<div className='col-md-3 compareValue'>FIT: REGULAR 100% POLYESTER WATER REPELLENT LAMINATED MEMBRANE OUTER DURABLE WATER REPELLENT TREATMENT INSULATION: OPTIMAL (80 G BODY, 60 G SLEEVES) LINING: 100% NYLON TAFFETA ADJUSTABLE BOTTOM HEM FLEECE POCKET LINING JACKET-PANT CONNECTORS AUDIO POCKET ELASTIC SNOWSKIRT WITH NON-SLIP BAND ADJUSTABLE SLEEVE CUFFS WITH VELCRO CLOSURE CHINGUARD WITH BRUSHED FLEECE THREADS BY COATS ONE HAND HOOD ADJUSTMENT YKK ZIPPERS CRITICALLY TAPED SEAMS</div>));
+    const {values, keyWord} = this['props'];
+    return values.map(item => '上衣' === keyWord ? (<div className='col-md-3 compareValue'>{item['choseJacket']['describe']}</div>):(<div className='col-md-3 compareValue'>{item['chosePants']['describe']}</div>));
   }
 
   renderCompareImage() {
