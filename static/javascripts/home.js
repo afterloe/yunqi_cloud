@@ -53,9 +53,11 @@ class AllocationApp extends React.Component {
 	}
 
 	changColor(event) {
+		if(this['throttle']) return;
 		const value = event['currentTarget']['value'];
-		setTimeout(() => {
+		this['throttle'] = setTimeout(() => {
 			this.setState({choseColor: value});
+			this['throttle'] = undefined;
 		}, 300);
 	}
 
