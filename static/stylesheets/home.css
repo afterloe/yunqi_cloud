@@ -8,6 +8,70 @@
  *   afterloe <afterloeliu@jwis.cn> (http://blog.sina.com.cn/afterloe)
  */
 
+/**
+ * AllocationApp
+ */
+
+.allocation-view {
+    position: absolute;
+    margin-left: 25rem;
+    margin-top: 5rem;
+}
+
+.allocation-color-selected {
+    position: absolute;
+    font-size: 18px;
+    display: -webkit-inline-box;
+    margin-top: -6rem;
+    margin-left: 10.8rem;
+    color: #666666;
+}
+
+.allocation-key {
+    font-size: 2rem;
+    color: #000000;
+    display: -webkit-inline-box;
+    font-weight: 500;
+    margin: 0 1.2rem 0 1.2rem;
+}
+
+.allocation-config {
+    display: -webkit-inline-box;
+    position: absolute;
+    margin-top: 0.2rem;
+    margin-left: 15em;
+    color: #dc3d13;
+    cursor: pointer;
+}
+
+.allocation-color-chose {
+    margin: 2rem 2.3rem 3.32rem 3.5rem;
+    background-color: purple;
+    width: 6rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.allocation-values {
+    margin-left: 3.32rem;
+    font-size: 1.8rem;
+}
+
+.allocation-value {
+    margin-bottom: 3.33rem;
+}
+
+.allocation-name {
+    color: #000000;
+}
+
+.allocation-input {
+    text-align: center;
+    border: none;
+    width: 6.78em;
+    height: 2.9rem;
+    color: #333333;
+}
 
 /**
 * style详情

@@ -17,15 +17,119 @@ function getStyleInfomation(id) {
 		xhr.open('get', `/json/style/styleInfo/${id}`);
 		xhr.send();
 		xhr.onreadystatechange = () => {
-        if (4 === xhr['readyState']) {
-            if (200 === xhr['status']) {
-                const result = JSON.parse(xhr['responseText']);
-								resolve(result['result']);
-            } else
-							reject(new Error('can\'t get style info from server, please try again'));
-        }
-    };
+			if (4 === xhr['readyState']) {
+				if (200 === xhr['status']) {
+					const result = JSON.parse(xhr['responseText']);
+					resolve(result['result']);
+	            } else
+					reject(new Error('can\'t get style info from server, please try again'));
+			}
+		};
 	});
+}
+
+class AllocationApp extends React.Component {
+	constructor(props) {
+		super(props);
+
+	}
+
+	render() {
+		return (
+			<div className='col-md-6 choiceJeaketApp_border' style={{'margin-left': '2.5rem', background: '#ffffff'}}>
+				<div className='allocation-config'>编辑</div>
+				<div className='allocation-view'>
+					<img src='/images/warehouse/default-men-mould.png'/>
+				</div>
+				<div className='row'>
+					<span className='allocation-key'>COLOR</span>
+					<div className='allocation-color-chose'></div>
+					<span className='allocation-color-selected'>purple</span>
+				</div>
+				<div className='row'>
+					<span className='allocation-key'>SIZE</span>
+					<div className='allocation-values'>
+						<div className='allocation-value'><span className='allocation-name'>肩宽 ( CM ) </span><input className='allocation-input' /></div>
+						<div><span>肩宽 ( CM ) </span></div>
+						<div><span>肩宽 ( CM ) </span></div>
+						<div><span>肩宽 ( CM ) </span></div>
+						<div><span>肩宽 ( CM ) </span></div>
+						<div><span>肩宽 ( CM ) </span></div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+}
+
+class ChoseMouldApp extends React.Component {
+	constructor(props) {
+		super(props);
+		this['exitChoseMould'] = this['exitChoseMould'].bind(this);
+	}
+
+	exitChoseMould() {
+		this['props'].exitChoseMould();
+	}
+
+	renderMouldHeader() {
+		const {btn_text, text_align} = this['props'];
+		return 'left' === text_align ? (
+			<div className='row'>
+				<span className='pull-right backChoseStyle' onClick={this.exitChoseMould}>退出定制<span className='backIcon_right'></span></span>
+			</div>
+		):(
+			<div className='row'>
+				<span className='pull-left backChoseStyle' onClick={this.exitChoseMould}><span className='backIcon'></span>退出定制</span>
+			</div>
+		);
+	}
+
+	render(){
+		const {btn_text, text_align} = this['props'];
+		return (
+			<div className='col-md-5 choiceJeaketApp_border'>
+				{this.renderMouldHeader()}
+				<div className='row'>
+					<span className='styleFullName'>选择模版进行定制</span>
+					<small className='styleInfo'>建议：选择模版之后点击右侧颜色进行筛选，或填入详细订制信息。</small>
+					<small className='styleInfo'>注意：生成预览图不是正在产品，仅供参考</small>
+				</div>
+				<div className='row'>
+					<span className='styleChose'>选择模板</span>
+					<div className='col-md-3 infoItem'>
+						<img src='/images/warehouse/OM198B.png' className='img-responsive center-block infoImage' />
+						<p>CARNES</p>
+					</div>
+				</div>
+				<div className='btn_styleInfo'> 厂家描述 </div>
+				<div className='styleDescribe'>
+					FIT: REGULAR
+					100% MECHANICAL STRETCH NYLON
+					WATER REPELLENT LAMINATED MEMBRANE
+					OUTER DURABLE WATER REPELLENT TREATMENT
+					INSULATION: PRIMALOFT SILVER (40 G BODY, 40 G SLEEVES)
+					LINING: 100% POLYESTER MESH, 100% NYLON TAFFETA
+					MULTIPURPOSE INTERIOR POCKET
+					LIFT-PASS SLEEVE POCKET
+					ADJUSTABLE BOTTOM HEM
+					FLEECE POCKET LINING
+					JACKET-PANT CONNECTORS
+					AUDIO POCKET WITH TOUCH-FRIENDLY TRANSPARENT WINDOW
+					ELASTIC SNOWSKIRT WITH NON-SLIP BAND
+					ELASTIC INNER SLEEVE CUFFS
+					ADJUSTABLE SLEEVE CUFFS WITH VELCRO CLOSURE
+					CHINGUARD WITH BRUSHED FLEECE
+					THREADS BY COATS
+					ERGONOMIC INTERIOR MESH PANEL
+					ONE HAND HOOD ADJUSTMENT
+					YKK ZIPPERS
+					VENTS WITH MESH BACKING
+					FULLY TAPED SEAMS
+				</div>
+			</div>
+		);
+	}
 }
 
 class ChoseApp extends React.Component {
@@ -34,6 +138,7 @@ class ChoseApp extends React.Component {
 		this['chose'] = this['chose'].bind(this);
 		this['exitStyleInfo'] = this['exitStyleInfo'].bind(this);
 		this['changeDescribeState'] = this['changeDescribeState'].bind(this);
+		this['beginCustomization'] = this['beginCustomization'].bind(this);
 	}
 
 	changeDescribeState(event) {
@@ -47,6 +152,10 @@ class ChoseApp extends React.Component {
 	chose(event) {
 		const choseStyleId  = event['currentTarget'].getAttribute('data-id');
 		this['props'].onChose(choseStyleId, this['props']['isInfo']);
+	}
+
+	beginCustomization(event) {
+		this['props'].beginCustomization();
 	}
 
 	renderStyles() {
@@ -79,12 +188,12 @@ class ChoseApp extends React.Component {
 		return 'left' === text_align ? (
 			<div className='row'>
 					<span className='pull-right backChoseStyle' onClick={this.exitStyleInfo}>返回{btn_text}<span className='backIcon_right'></span></span>
-					<span className='pull-left btn_customization'><span className='pull-left customizationIcon_right'></span>没有喜欢的?</span>
+					<span className='pull-left btn_customization' onClick={this.beginCustomization}><span className='pull-left customizationIcon_right'></span>没有喜欢的?</span>
 			</div>
 		): (
 			<div className='row'>
 					<span className='pull-left backChoseStyle' onClick={this.exitStyleInfo}><span className='backIcon'></span>返回{btn_text}</span>
-					<span className='pull-right btn_customization'><span className='pull-right customizationIcon'></span>没有喜欢的?</span>
+					<span className='pull-right btn_customization' onClick={this.beginCustomization}><span className='pull-right customizationIcon'></span>没有喜欢的?</span>
 			</div>
 		);
 	}
@@ -335,9 +444,11 @@ class SeletedApp extends React.Component {
 		this['saveScheme'] = this['saveScheme'].bind(this);
 		this['deleteContrastItem'] = this['deleteContrastItem'].bind(this);
 		this['beginCompare'] = this['beginCompare'].bind(this);
+		this['beginCustomization'] = this['beginCustomization'].bind(this);
 		this['state'] = {
 			jacketItems: this['props']['jacketItems'],
-			pantsItems: this['props']['pantsItems']
+			pantsItems: this['props']['pantsItems'],
+			isCustomization: true
 		};
 	}
 
@@ -430,27 +541,50 @@ class SeletedApp extends React.Component {
 	}
 
 	beginCompare(index) {
-			const {schemeItem} = this['state'];
-			const selectItems = index.map(i => schemeItem[i]);
-			localStorage['compare'] = JSON.stringify(selectItems);
-			window.open('/compare');
+		const {schemeItem} = this['state'];
+		const selectItems = index.map(i => schemeItem[i]);
+		localStorage['compare'] = JSON.stringify(selectItems);
+		window.open('/compare');
 	}
 
-	render() {
+	beginCustomization() {
+		this.setState((prevState, props) => ({isCustomization: !prevState['isCustomization']}));
+	}
+
+	renderConvention() {
 		const {choseJacket, chosePants ,jacketItems, pantsItems, goToJacketInfo, goToPantsInfo, jacketInfo, pantsInfo, choseJacketItem, chosePantsItem, schemeItem} = this['state'] || {};
 		const flag = goToJacketInfo && goToPantsInfo;
 		return (
 			<div>
 				<div className='container'>
 					<div className='row'>
-						<ChoseApp items={jacketItems} info={jacketInfo} choseItem={choseJacketItem} btn_text="选择上衣"  text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo}/>
+						<ChoseApp items={jacketItems} info={jacketInfo} choseItem={choseJacketItem} btn_text="选择上衣"  text_align="right" onChose={this.choseJacket} isInfo={goToJacketInfo} onExitStyleInfo={this.exitJacketInfo} beginCustomization={this.beginCustomization} />
+
 						<ShowApp jacket={choseJacket} pants={chosePants} showSave={flag} onSaveScheme={this.saveScheme}/>
-						<ChoseApp items={pantsItems} info={pantsInfo} choseItem={chosePantsItem} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo}/>
+						<ChoseApp items={pantsItems} info={pantsInfo} choseItem={chosePantsItem} btn_text="选择裤子" text_align="left" onChose={this.chosePants} isInfo={goToPantsInfo} onExitStyleInfo={this.exitPantsInfo} beginCustomization={this.beginCustomization} />
 					</div>
 				</div>
 				<ContrastBar schemeItem={schemeItem} onBeginCompare={this.beginCompare} onDeleteContrastItem={this.deleteContrastItem} />
 			</div>
 		);
+	}
+
+	renderCustomization() {
+		const {jacketItems, jacketInfo, choseJacketItem, goToJacketInfo, schemeItem} = this['state'] || {};
+		return (
+			<div>
+				<div className='container'>
+					<ChoseMouldApp btn_text='退出定制' text_align='right' exitChoseMould={this.beginCustomization}/>
+					<AllocationApp />
+				</div>
+				<ContrastBar schemeItem={schemeItem} onBeginCompare={this.beginCompare} onDeleteContrastItem={this.deleteContrastItem} />
+			</div>
+		);
+	}
+
+	render() {
+		const {isCustomization} = this['state'];
+		return isCustomization ? this.renderCustomization() : this.renderConvention();
 	}
 }
 
