@@ -13,6 +13,7 @@ import Koa from "koa";
 import Pug from "koa-pug";
 import {resolve} from "path";
 import Route from "koa-router";
+import bodyParser from 'koa-bodyparser';
 import staticService from "../interceptors/staticSources";
 import logger from "../interceptors/requestLogger";
 import notFound from "../interceptors/jsonNotFound";
@@ -30,7 +31,10 @@ const pug = new Pug({
 });
 
 Controller(router);
-
-app.use(logger).use(staticSources.asyncStatic()).use(router.routes()).use(router.allowedMethods()).use(notFound);
+app.use(logger).use(staticSources.asyncStatic()).use(bodyParser({
+  onerror: (err, ctx) => {
+    ctx.throw('body parse error', 422);
+  }
+})).use(router.routes()).use(router.allowedMethods()).use(notFound);
 
 export default app;

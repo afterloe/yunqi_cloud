@@ -52,7 +52,7 @@ function sendScheme(jackeId, pantsId) {
 		const xhr = new XMLHttpRequest();
 		xhr.timeout = 15 * 1000;
 		xhr['ontimeout'] = event => reject(new Error('time up'));
-		xhr.open('post', `/json/collection/scheme?jackeId=${jackeId}&pantsId=${pantsId}`);
+		xhr.open('post', `/json/collection/scheme`);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.send(`jackeId=${jackeId}&pantsId=${pantsId}`);
 		xhr.onreadystatechange = () => {
