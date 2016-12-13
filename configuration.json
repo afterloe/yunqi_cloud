@@ -1,5 +1,5 @@
 {
   "registryPort": 15021,
   "bindHost": "0.0.0.0",
-  "db":"/home/afterloe/wehouse.db"
+  "db":"D:/sqlite-tools-win32-x86-3150200/wehouse.db"
 }

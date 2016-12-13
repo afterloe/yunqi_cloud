@@ -11,6 +11,21 @@
 /**
  * AllocationApp
  */
+.navyBlue {
+    background-color: #001ac7;
+}
+
+.green {
+    background-color: #02cc04;
+}
+
+.pink {
+    background-color: #ca019c;
+}
+
+.yellow {
+    background-color: #c38e00;
+}
 
 #colorDisc {
     position: absolute;

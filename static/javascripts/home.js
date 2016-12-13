@@ -26,7 +26,7 @@ function obmitItemValues(__path) {
 			}
         }
      });
-} 
+}
 
 function sendCollectionData(__path) {
 	return new Promise((resolve, reject) => {
@@ -40,7 +40,7 @@ function sendCollectionData(__path) {
 				if (200 === xhr['status']) {
 					const result = JSON.parse(xhr['responseText']);
 					resolve(result['result']);
-				} else 
+				} else
 					reject(new Error('system error'));
 			}
 		}
@@ -98,7 +98,11 @@ class AllocationApp extends React.Component {
 		this['addOption'] = this['addOption'].bind(this);
 		this['deleteOption'] = this['deleteOption'].bind(this);
 		this['state'] = {
-			choseColor: 'purple',
+      choseColor: {
+        name: 'wathet',
+        rgb: '#01acd8',
+        mould: 'OM198B.png'
+      },
 			options_flag: '<',
 			configText: '编辑'
 		}
@@ -112,12 +116,9 @@ class AllocationApp extends React.Component {
 	}
 
 	changColor(event) {
-		if(this['throttle']) return;
-		const value = event['currentTarget']['value'];
-		this['throttle'] = setTimeout(() => {
-			this.setState({choseColor: value});
-			this['throttle'] = undefined;
-		}, 300);
+    const id = event['currentTarget'].getAttribute('data-id');
+    const mould = this['props']['mould'][id];
+    this.setState({choseColor: mould, isChoseColor: false});
 	}
 
 	openColorDisc(event) {
@@ -194,19 +195,20 @@ class AllocationApp extends React.Component {
 	renderColorDisc() {
 		const {isChoseColor} = this['state'];
 		if (!isChoseColor) return ;
+    const {mould} = this['props'];
+    const recommendColor = mould.map((m, key) => (
+      <span style={{'background-color': m['rgb']}} onClick={this.changColor} data-id={key}></span>
+    ));
 		return (
 			<div className='colorDisc-default'>
-				<div className='colorDisc-bar'></div> 
+				<div className='colorDisc-bar'></div>
 				<span className='colorDisc-title'>主题颜色</span>
-				<div className='colorDisc-vitta'></div> 
+				<div className='colorDisc-vitta'></div>
 				<span className='colorDisc-title'>推荐颜色</span>
 				<div className='colorDisc-recommend'>
-					<span></span>
-				    <span></span>
-				    <span></span>
-					<span></span>
+					  {recommendColor}
 			    </div>
-			</div>		
+			</div>
 		);
 	}
 
@@ -217,13 +219,13 @@ class AllocationApp extends React.Component {
 				<div className='allocation-config' onClick={this.changeOptions}>{configText}</div>
 				<div className='allocation-view'>
 					<input type="color" id='colorDisc' onChange={this.changColor}/>
-					<img src='/images/warehouse/OM198B.png' />
+					<img src={`/images/warehouse/${choseColor['mould']}`} />
 				</div>
 				<div className='row'>
 					<span className='allocation-key'>COLOR</span>
 					{this.renderColorDisc()}
-					<div className='allocation-color-chose' style={{'background-color': choseColor}} onClick={this.openColorDisc}></div>
-					<span className='allocation-color-selected'>{choseColor}</span>
+					<div className='allocation-color-chose' style={{'background-color': choseColor['rgb']}} onClick={this.openColorDisc}></div>
+					<span className='allocation-color-selected'>{choseColor['name']}</span>
 				</div>
 				<div className='row'>
 					<span className='allocation-key'>SIZE</span>
@@ -239,6 +241,8 @@ class AllocationApp extends React.Component {
 		);
 	}
 }
+
+
 
 class ChoseMouldApp extends React.Component {
 	constructor(props) {
@@ -445,6 +449,23 @@ class ShowApp extends React.Component {
 }
 
 AllocationApp['defaultProps'] = {
+  mould: [{
+    name: 'yellow',
+    rgb: '#c38e00',
+    mould: '黄色.png'
+  },{
+    name: 'navy blue',
+    rgb: '#001ac7',
+    mould: '深蓝色.png'
+  },{
+    name: 'green',
+    rgb: '#02cc04',
+    mould: '绿色.png'
+  },{
+    name: 'pink',
+    rgb: '#ca019c',
+    mould: '粉色.png'
+  }],
 	options : ['肩宽','胸围','腰围','臀围','袖长','背长','领围','手头','碗围','头围','袖孔','股上','总长']
 }
 
@@ -540,7 +561,7 @@ class ContrastBar extends React.Component {
 					<img className='miniView-jacket' src={'/images/warehouse/' + item['jackeThumbnail']} />
                     <img className='miniView-pants' src={'/images/warehouse/' + item['pantsThumbnail']} />
 				</span>
-			)); 
+			));
 			return (
 				<div>
 					{items}
@@ -638,7 +659,7 @@ class SeletedApp extends React.Component {
 		this['state'] = {
 			jacketItems: this['props']['jacketItems'],
 			pantsItems: this['props']['pantsItems'],
-			isCustomization: true
+//			isCustomization: true
 		};
 	}
 
