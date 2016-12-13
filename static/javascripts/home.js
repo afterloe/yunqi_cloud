@@ -121,8 +121,7 @@ class AllocationApp extends React.Component {
 	}
 
 	openColorDisc(event) {
-		const element = document.getElementById('colorDisc');
-		element.click();
+		this.setState((prevState, props) => ({isChoseColor: !prevState['isChoseColor']}));
 	}
 
 	openOptionList(event) {
@@ -192,17 +191,37 @@ class AllocationApp extends React.Component {
 		);
 	}
 
+	renderColorDisc() {
+		const {isChoseColor} = this['state'];
+		if (!isChoseColor) return ;
+		return (
+			<div className='colorDisc-default'>
+				<div className='colorDisc-bar'></div> 
+				<span className='colorDisc-title'>主题颜色</span>
+				<div className='colorDisc-vitta'></div> 
+				<span className='colorDisc-title'>推荐颜色</span>
+				<div className='colorDisc-recommend'>
+					<span></span>
+				    <span></span>
+				    <span></span>
+					<span></span>
+			    </div>
+			</div>		
+		);
+	}
+
 	render() {
 		const {choseColor, configText} = this['state'];
 		return (
 			<div className='col-md-6 choiceJeaketApp_border' style={{'margin-left': '2.5rem', background: '#ffffff'}}>
 				<div className='allocation-config' onClick={this.changeOptions}>{configText}</div>
-				<div className='allocation-view' style={{'background-color': choseColor}} >
+				<div className='allocation-view'>
 					<input type="color" id='colorDisc' onChange={this.changColor}/>
-					<img src='/images/warehouse/default-men-mould.png'/>
+					<img src='/images/warehouse/OM198B.png' />
 				</div>
 				<div className='row'>
 					<span className='allocation-key'>COLOR</span>
+					{this.renderColorDisc()}
 					<div className='allocation-color-chose' style={{'background-color': choseColor}} onClick={this.openColorDisc}></div>
 					<span className='allocation-color-selected'>{choseColor}</span>
 				</div>
@@ -619,7 +638,7 @@ class SeletedApp extends React.Component {
 		this['state'] = {
 			jacketItems: this['props']['jacketItems'],
 			pantsItems: this['props']['pantsItems'],
-//			isCustomization: true
+			isCustomization: true
 		};
 	}
 

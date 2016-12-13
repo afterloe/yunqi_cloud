@@ -21,6 +21,57 @@
     height: 0;
 }
 
+.colorDisc-default {
+    position: absolute;
+    display: -webkit-inline-box;
+    box-shadow: 0 0 6px 1px rgba(0,0,0,0.6);
+    border: 1px solid #ddd;
+    width: 20.1rem;
+    height: 18rem;
+    margin-top: 7.3rem;
+    margin-left: -4.4rem;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.colorDisc-bar {
+    display: -webkit-inline-box;
+    width: 19rem;
+    height: 2rem;
+    margin-top: 1rem;
+    margin-left: 0.45rem;
+    background: url(/images/warehouse/colordist.png) no-repeat;
+    cursor: pointer;
+}
+
+.colorDisc-title {
+    margin-left: 0.5rem;
+    color: #333333;
+}
+
+.colorDisc-vitta {
+    display: -webkit-inline-box;
+    width: 19rem;
+    height: 8rem;
+    margin-left: 0.45rem;
+    cursor: pointer;
+    background: url(/images/warehouse/colorSelected.png) no-repeat;
+}
+
+.colorDisc-recommend {
+    display: -webkit-inline-box;
+    width: 20rem;
+}
+
+.colorDisc-recommend > span {
+    display: -webkit-inline-box;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid;
+    cursor:pointer;
+    margin-left: 1rem;
+}
+
 .allocation-view {
     position: absolute;
     margin-left: 25rem;
