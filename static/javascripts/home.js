@@ -47,7 +47,6 @@ function sendCollectionData(__path) {
 	}).then(data => console.log(data)).catch(err => console.log(err));
 }
 
-
 function sendScheme(jackeId, pantsId) {
 	return new Promise((resolve,reject) => {
 		const xhr = new XMLHttpRequest();
@@ -70,7 +69,7 @@ function sendScheme(jackeId, pantsId) {
 
 function getStyleInfomation(id) {
 	return new Promise((resolve,reject) => {
-		let xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();
 		xhr.timeout = 15 * 1000;
 		xhr.ontimeout = event => reject(new Error('can\'t get style info from server, please try again'));
 		xhr.open('get', `/json/style/styleInfo/${id}`);
@@ -80,11 +79,30 @@ function getStyleInfomation(id) {
 				if (200 === xhr['status']) {
 					const result = JSON.parse(xhr['responseText']);
 					resolve(result['result']);
-	            } else
+	      } else
 					reject(new Error('can\'t get style info from server, please try again'));
 			}
 		};
 	});
+}
+
+function sendAllocationScheme() {
+    return new Promise((resolve,reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.timeout = 15 * 1000;
+        xhr.ontimeout = event => reject(new Error('can\'t get style info from server, please try again'));
+        xhr.open('get', `/json/style/styleInfo/${id}`);
+    		xhr.send();
+        xhr.onreadystatechange = () => {
+    			if (4 === xhr['readyState']) {
+    				if (200 === xhr['status']) {
+    					const result = JSON.parse(xhr['responseText']);
+    					resolve(result['result']);
+    	      } else
+    					reject(new Error('can\'t get style info from server, please try again'));
+    			}
+    		};
+    });
 }
 
 class AllocationApp extends React.Component {
