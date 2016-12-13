@@ -9,19 +9,38 @@
  */
 "use strict";
 
+function obmitItemValues(__path) {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
+		xhr['timeout'] = 15 * 1000;
+		xhr['ontimeout'] = event => reject(new Error('time is up!'));
+		xhr.open('get', __path);
+		xhr.send();
+		xhr.onreadystatechange = () => {
+			if (4 === xhr['readyState']) {
+				if (200 === xhr['status']) {
+					const result = JSON.parse(xhr['responseText']);
+					resolve(result['result']);
+				} else
+					reject(new Error('system error'));
+			}
+		}
+	});
+}
+
 const loadHotAllocation = activityView => {
       if ('热点定制项' !== activityView) return [];
-      return [1,2];
+      return obmitItemValues('/json/obmit/allocation');
 }
 
 const loadHotSell = activityView => {
       if ('最热销' !== activityView) return loadHotAllocation(activityView);
-      return [1,2,3,4,5];
+      return obmitItemValues('/json/obmit/hot');
 }
 
 const loadHightClick = activityView => {
       if ('最吸引眼球' !== activityView) return loadHotSell(activityView);
-      return [1,2,3];
+      return obmitItemValues('/json/obmit/look');
 };
 
 class SellViews extends React.Component {
@@ -35,28 +54,32 @@ class SellViews extends React.Component {
 
     componentWillMount() {
         const {activityView} = this['state'];
-        const items = loadHightClick(activityView);
-        this.setState({items});
+        const [__self, items] = [this, loadHightClick(activityView)];
+		items.then(data => {
+			__self.setState({items: data});
+		}).catch(err => {
+			alert('系统繁忙');
+		});
     }
 
     changeSelectView(event) {
         const activityView = event['currentTarget']['innerText'];
         const items = loadHightClick(activityView);
-        this.setState({activityView, items});
+		items.then(data => this.setState({items: data, activityView})).catch(err => alert('系统繁忙'));
     }
 
     renderViewItems() {
-        const {items} = this['state'];
+        const {items = []} = this['state'];
         return items.map(item => (
           <div className='col-md-3 sellViews-item'>
-              <div className='sellViews-view'><img src='/images/img-9a76980c0bc640b9bcb25f50fecef09b.jpg'/></div>
+              <div className='sellViews-view'><img src={'/images/warehouse/' + item['thumbnail']} /></div>
               <div className='sellViews-card'>
-                  <p className='sellViews-pri'>价格 : $225.00</p>
-                  <p className='sellViews-info'>商品名 : REGULAR</p>
-                  <p className='sellViews-info'>色系 : PRIMALOFT SILVER</p>
+                  <p className='sellViews-pri'>价格 : HK$ {item['price'] || '-'}</p>
+                  <p className='sellViews-info'>商品名 : {item['name']}</p>
+                  <p className='sellViews-info'>色系 : {item['color']}</p>
                   <div className='sellViews-other'>
-                    <span className='pull-left'>库存: 219</span>
-                    <span className='pull-right'>交货周期: 3~5 天</span>
+                    <span className='pull-left'>库存: {item['repertory'] || 0}</span>
+                    <span className='pull-right'>交货周期: {item['cycle'] || '-'} 天</span>
                   </div>
               </div>
           </div>
