@@ -15,7 +15,7 @@ export default class SchemeService {
 
 	static async collectionUserScheme(jackeId, pantsId) {
 		let scheme = await schemeDao.queryScheme(jackeId, pantsId);
-		if (scheme && scheme['id']) {
+		if (scheme) {
 			let likeCount = Number.parseInt(scheme['like']);
 			likeCount++;
 			await schemeDao.likeScheme(scheme['id'], likeCount);
@@ -23,7 +23,7 @@ export default class SchemeService {
 			const [jacket, pants] = await Promise.all([warehouseDao.queryById(jackeId), warehouseDao.queryById(pantsId)]);
 			if (!jacket || !pants) return;
 			await schemeDao.createScheme({
-				jacketId: jacket['id'],
+				jackeId: jacket['id'],
 				pantsId: pants['id'],
 				jackeThumbnail: jacket['thumbnail'],
 				pantsThumbnail: pants['thumbnail']
@@ -38,7 +38,7 @@ export default class SchemeService {
 
 	static async addLook(id) {
 		let scheme = await schemeDao.querySchemeById(id);
-		if (scheme && scheme['view']) {
+		if (scheme) {
 			let viewCount = Number.parseInt(scheme['view']);
 			viewCount++;
 			await schemeDao.likeScheme(scheme['id'], viewCount);

@@ -11,17 +11,53 @@
 
 const data = getData();
 
+function sellGood(id) {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
+        xhr['timeout'] = 15 * 1000;
+        xhr['ontimeout'] = event => reject(new Error('time up'));
+        xhr.open('get', `/json/collection/sell/${id}`);
+        xhr.send();
+        xhr.onreadystatechange = () => {
+        if (4 === xhr['readyState']) {
+                 if (200 === xhr['status']) {
+                     const result = JSON.parse(xhr['responseText']);
+                     resolve(result['result']);
+                } else 
+                     reject(new Error('system error'));
+             }
+        }
+    }).then(data => console.log(data)).catch(err => console.log(err));
+}
+
 class SimpleInfo extends React.Component {
 	constructor(props) {
 		super(props);
+		this['sellGood'] = this['sellGood'].bind(this);
+		this['state'] = {};
+	}
+
+	sellGood(event) {
+		let {sellSet = new Set()} = this['state'];
+		const id = event['currentTarget'].getAttribute('data-id');
+		if (sellSet.has(id)) {
+			alert('已经通知发货了');
+			return;
+		}
+		sellGood(id);
+		this.setState((prevState,props) => {
+			let set = prevState['sellSet'] || new Set();
+			set.add(id);
+			return {sellSet: set}
+		});
 	}
 
 	render() {
 		const {type,data} = this['props'];
-		const {styleName, name, price, repertory, cycle} = data;
+		const {styleName, name, price, repertory, cycle, id} = data;
 		return (
 			<div className='simpleInfo'>
-				<span className='styleType'>{type} <span className='quickGo'></span></span>
+				<span className='styleType'>{type} <span className='quickGo' onClick={this.sellGood} data-id={id}></span></span>
 				<p>产品名: {styleName} - {name}</p>
 				<p>价格: {price}</p>
 				<p>库存: {repertory}</p>

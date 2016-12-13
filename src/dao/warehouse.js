@@ -34,7 +34,7 @@ export default sequelize => sequelize.define({
 				resolve(flag);
 			});
 		});
-	}
+	},
 	queryHot: function() {
 		return new Promise((resolve, reject) => {
 			this.all(sqlMap.get('queryHot'), (error,rows) => {

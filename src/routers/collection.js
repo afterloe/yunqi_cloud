@@ -17,7 +17,7 @@ export default class Collection {
 	static async look(ctx, next) {
 		if (ctx['error']) return next();
 		try {
-			const id = ctx['params'];
+			const {id} = ctx['params'];
 			const flag = await wareHouseService.collectionHot(id);
 			ctx['body'] = ctx.success(flag);
 		} catch (error) {
@@ -30,7 +30,7 @@ export default class Collection {
 	static async hot(ctx, next) {
 		if (ctx['error']) return next();
 		try {
-			const id = ctx['params'];
+			const {id} = ctx['params'];
 			const flag = await wareHouseService.sellGoods(id);
 			ctx['body'] = ctx.success(flag);
 		} catch (error) {
@@ -44,7 +44,8 @@ export default class Collection {
 		if(ctx['error']) return next();
 		try {
 			const {jackeId, pantsId} = ctx['query'];
-			if (!jackedId || !pantsId) throw new Error('lack params');
+			console.log(jacke);
+			if (!jackeId || !pantsId) throw new Error('lack params');
 			const flag = await schemeService.collectionUserScheme(jackeId, pantsId);
 			ctx['body'] = ctx.success(flag);
 		} catch (error) {

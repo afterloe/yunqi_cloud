@@ -21,7 +21,7 @@ export default class WareHouseService {
 	static async sellGoods(id) {
 		const good = await warehouseDao.queryById(id);
 		let flag = false;
-		if (good && good['repertory'] && good['sell']) {
+		if (good) {
 			let [sellCount, repertoryCount] = [Number.parseInt(good['sell']), Number.parseInt(good['repertory'])];
 			sellCount++;
 			repertoryCount--;
@@ -35,7 +35,7 @@ export default class WareHouseService {
 	static async collectionHot(id) {
 		const good = await warehouseDao.queryById(id);
 		let flag = false;
-		if (good && good['hot']) {
+		if (good) {
 			let hotCount = Number.parseInt(good['hot']);
 			hotCount++;
 			await warehouseDao.viewGoods(good['id'], hotCount);

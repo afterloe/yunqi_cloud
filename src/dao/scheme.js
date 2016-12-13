@@ -12,30 +12,28 @@
 const sqlMap = new Map();
 
 sqlMap.set('queryScheme','SELECT id,view,like FROM scheme WHERE jackeId = $jackeId AND pantsId = $pantsId');
-sqlMap.set('createScheme', 'INSERT INTO scheme (jackeId, pantsId, jackeThumbnail, pantsThumbnail) VALUES ($jackId, $pantsId, $jackeThumbnail, $pantsThumbnail)');
-sqlMap.set('likeScheme', 'UPDATE scheme SET like=$count WHERE id=$id');
-sqlMap.set('viewScheme', 'UPDATE scheme SET view=$count WHERE id=$id');
+sqlMap.set('createScheme', 'INSERT INTO scheme (jackeId,pantsId,jackeThumbnail,pantsThumbnail) VALUES (?,?,?,?)');
+sqlMap.set('likeScheme', 'UPDATE scheme SET like=? WHERE id=?');
+sqlMap.set('viewScheme', 'UPDATE scheme SET view=? WHERE id=?');
 sqlMap.set('querySchemeById', 'SELECT * FROM scheme WHERE id=$id');
 sqlMap.set('getRecommend', 'SELECT jackeThumbnail,pantsThumbnail,id FROM scheme ORDER BY like,view DESC LIMIT 0,5');
 
 export default sequelize => sequelize.define({
-	lickScheme: function (_id, count) {
+	likeScheme: function (_id, count) {
 		return new Promise((resolve, reject) => {
-			this.run(sqlMap.get('likeScheme'), {$id :id, $conut: count}, (error, flag) => {
+			this.run(sqlMap.get('likeScheme'), [count, _id], (error, flag) => {
 				if(error) reject(error);
 				resolve(flag);
 			});
 		});
 	},
-	createScheme: function (scheme) {
+	createScheme: function (scheme) {	
 		return new Promise((resolve, reject) => {
 			const {jackeId, pantsId, jackeThumbnail, pantsThumbnail} = scheme;
-			this.run(sqlMap.get('createScheme'), {
-				$jackeId: jackeId,
-				$pantsId: pantsId,
-				$jackeThumbnail : jackeThumbnail,
-				$pantsThumbnail : pantsThumbnail
-			}, (error,flag) => {
+			console.log(typeof jackeId);
+			console.log(typeof pantsId);
+			console.log(jackeId, pantsId, jackeThumbnail, pantsThumbnail);
+			this.run(sqlMap.get('createScheme'), [jackeId, pantsId, jackeThumbnail, pantsThumbnail], (error,flag) => {
 				if(error) reject(error);
 				resolve(flag);
 			});
@@ -51,7 +49,10 @@ export default sequelize => sequelize.define({
 	},
 	viewScheme: function (_id, count) {
 		return new Promise((resolve,reject) => {
-			this.run(sqlMap.get('viewScheme'), {$id:_id, $count: count});
+			this.run(sqlMap.get('viewScheme'), [count,_id], (error, flag) => {
+				if(error) reject(error);
+				resolve(flag);
+			});
 		});
 	},
 	querySchemeById: function (_id) {

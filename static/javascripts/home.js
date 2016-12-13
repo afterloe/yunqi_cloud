@@ -25,18 +25,18 @@ function sendCollectionData(__path) {
 					reject(new Error('system error'));
 			}
 		}
-	}).then(data => console.log(data)).catch(err => console.log(error));
+	}).then(data => console.log(data)).catch(err => console.log(err));
 }
 
 
-function sendScheme(jackedId, pantsId) {
+function sendScheme(jackeId, pantsId) {
 	return new Promise((resolve,reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.timeout = 15 * 1000;
 		xhr['ontimeout'] = event => reject(new Error('time up'));
-		xhr.open('post', `/json/collection/scheme?jackeId=${jackedId}&pantsId=${pantsId}`);
+		xhr.open('post', `/json/collection/scheme?jackeId=${jackeId}&pantsId=${pantsId}`);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.send(`jackedId=${jackeId}&pantsId=${pantsId}`);
+		xhr.send(`jackeId=${jackeId}&pantsId=${pantsId}`);
 		xhr.onreadystatechange = () => {
 			if (4 === xhr['readyState']) {
 				if (200 === xhr['status']) {
@@ -46,7 +46,7 @@ function sendScheme(jackedId, pantsId) {
 					reject(new Error('system error'));
 			}
 		}
-	}).then(data => console.log(data)).catch(err => console.log(error));
+	}).then(data => console.log(data)).catch(err => console.log(err));
 }
 
 function getStyleInfomation(id) {
