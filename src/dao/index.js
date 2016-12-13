@@ -19,3 +19,4 @@ function load(name) {
 export const styleDao = load('style');
 export const warehouseDao = load('warehouse');
 export const allocationDao = load('allocation');
+export const schemeDao = load('scheme');

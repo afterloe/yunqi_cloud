@@ -10,13 +10,16 @@
 "use strict";
 
 import wareHouseService from '../service/wareHouseService';
+import schemeService from '../service/schemeService';
 
 export default class Collection {
 
-	static look(ctx, next) {
+	static async look(ctx, next) {
 		if (ctx['error']) return next();
 		try {
-		
+			const id = ctx['params'];
+			const flag = await wareHouseService.collectionHot(id);
+			ctx['body'] = ctx.success(flag);
 		} catch (error) {
 			ctx['error'] = error;
 		}
@@ -24,10 +27,12 @@ export default class Collection {
 		return next();
 	}
 
-	static hot(ctx, next) {
+	static async hot(ctx, next) {
 		if (ctx['error']) return next();
 		try {
-		
+			const id = ctx['params'];
+			const flag = await wareHouseService.sellGoods(id);
+			ctx['body'] = ctx.success(flag);
 		} catch (error) {
 			ctx['error'] = error;
 		}
@@ -35,7 +40,22 @@ export default class Collection {
 		return next();
 	}
 
-	static allocation(ctx, next) {
+	static async scheme(ctx, next) {
+		if(ctx['error']) return next();
+		try {
+			const {jackeId, pantsId} = ctx['query'];
+			if (!jackedId || !pantsId) throw new Error('lack params');
+			const flag = await schemeService.collectionUserScheme(jackeId, pantsId);
+			ctx['body'] = ctx.success(flag);
+		} catch (error) {
+			console.log(error);
+			ctx['error'] = error;
+		}
+
+		return next();
+	}
+
+	static async allocation(ctx, next) {
 		if (ctx['error']) return next();
 		try {
 		
@@ -62,6 +82,19 @@ export default class Collection {
 		if (ctx['error']) return next();
 		try {
 			const list = await wareHouseService.queryHot();
+			ctx['body'] = ctx.success(list);
+		} catch (error) {
+			console.log(error);
+			ctx['error'] = error;
+		}
+
+		return next();
+	}
+
+	static async getRecommend(ctx, next) {
+		if (ctx['error']) return next();
+		try {
+			const list = await schemeService.obmitSystemRecommend();
 			ctx['body'] = ctx.success(list);
 		} catch (error) {
 			ctx['error'] = error;

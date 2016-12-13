@@ -9,6 +9,46 @@
  */
 "use strict";
 
+function sendCollectionData(__path) {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
+		xhr['timeout'] = 15 * 1000;
+		xhr['ontimeout'] = event => reject(new Error('time up'));
+		xhr.open('get', __path);
+		xhr.send();
+		xhr.onreadystatechange = () => {
+			if (4 === xhr['readyState']) {
+				if (200 === xhr['status']) {
+					const result = JSON.parse(xhr['responseText']);
+					resolve(result['result']);
+				} else 
+					reject(new Error('system error'));
+			}
+		}
+	}).then(data => console.log(data)).catch(err => console.log(error));
+}
+
+
+function sendScheme(jackedId, pantsId) {
+	return new Promise((resolve,reject) => {
+		const xhr = new XMLHttpRequest();
+		xhr.timeout = 15 * 1000;
+		xhr['ontimeout'] = event => reject(new Error('time up'));
+		xhr.open('post', `/json/collection/scheme?jackeId=${jackedId}&pantsId=${pantsId}`);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.send(`jackedId=${jackeId}&pantsId=${pantsId}`);
+		xhr.onreadystatechange = () => {
+			if (4 === xhr['readyState']) {
+				if (200 === xhr['status']) {
+					const result = JSON.parse(xhr['responseText']);
+					resolve(result['result']);
+				} else
+					reject(new Error('system error'));
+			}
+		}
+	}).then(data => console.log(data)).catch(err => console.log(error));
+}
+
 function getStyleInfomation(id) {
 	return new Promise((resolve,reject) => {
 		let xhr = new XMLHttpRequest();
@@ -572,6 +612,7 @@ class SeletedApp extends React.Component {
 			}).catch(error => console.log(error));
 		} else {
 			const choseJacke = this['state']['jacketInfo']['stylesheetItems'][id];
+			sendCollectionData(`/json/collection/look/${choseJacke['id']}`);
 			this.setState({
 				choseJacket: choseJacke,
 				choseJacketItem: id
@@ -599,6 +640,7 @@ class SeletedApp extends React.Component {
 			}).catch(error => console.log(error));
 		} else {
 			const chosePants = this['state']['pantsInfo']['stylesheetItems'][id];
+			sendCollectionData(`/json/collection/look/${chosePants['id']}`);
 			this.setState({
 				chosePants: chosePants,
 				chosePantsItem: id
@@ -613,9 +655,9 @@ class SeletedApp extends React.Component {
 	addScheme(obj) {
 		const {choseJacket, chosePants} = obj;
 		const flag = this.find(item => item['choseJacket']['id'] === choseJacket['id'] && item['chosePants']['id'] === chosePants['id']);
-		console.log(flag);
 		if(flag || this.length> 5) return;
 		this.push(obj);
+		sendScheme(choseJacket['id'], chosePants['id']);
 	}
 
 	generatorScheme(choseItem, styleInfo) {
