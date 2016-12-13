@@ -92,6 +92,17 @@ export default class Collection {
 		return next();
 	}
 
+	static async getHotRecommend(ctx, next) {
+		if (ctx['error']) return next();
+		try {
+			const {id} = ctx['params'];
+			const list = await schemeService.askForRecommendation(id);
+			ctx['body'] = ctx.success(list);
+		} catch (error) {
+			ctx['error'] = error;
+		}
+	}
+
 	static async getRecommend(ctx, next) {
 		if (ctx['error']) return next();
 		try {

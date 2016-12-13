@@ -28,5 +28,6 @@ export default function (router) {
 	router.get('/json/obmit/look', coll['getLook']); // 获取 吸引眼球的数据
 	router.get('/json/obmit/hot', coll['getHot']); // 获取 最热销的数据
 	router.get('/json/obmit/allocation', coll['getAllocation']); // 获取 热点定制项
-	router.get('/json/obmit/recommend', coll['getRecommend']); // 获取 推荐数据
+	router.get('/json/obmit/recommend', coll['getRecommend']); // 获取冷推荐数据
+	router.get('/json/obmit/recommend/:id', coll['getHotRecommend']); // 获取热推荐数据
 };

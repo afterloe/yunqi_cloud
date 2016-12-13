@@ -9,6 +9,25 @@
  */
 "use strict";
 
+function obmitItemValues(__path) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr['timeout'] = 15 * 1000;
+        xhr['ontimeout'] = event => reject(new Error('time is up!'));
+        xhr.open('get', __path);
+        xhr.send();
+        xhr.onreadystatechange = () => {
+	        if (4 === xhr['readyState']) {
+				if (200 === xhr['status']) {
+					const result = JSON.parse(xhr['responseText']);
+					resolve(result['result']);
+				} else
+					reject(new Error('system error'));
+			}
+        }
+     });
+} 
+
 function sendCollectionData(__path) {
 	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
@@ -452,6 +471,13 @@ class ContrastBar extends React.Component {
 		});
 	}
 
+	componentWillMount() {
+		const __self = this;
+		obmitItemValues('/json/obmit/recommend').then(data => {
+			__self.setState({recommend: data});
+		}).catch(err => console.log(err));
+	}
+
 	changeActionBar(event) {
 		this.setState((prevState, props) => {
 			let interim = prevState['hidden_barName'];
@@ -489,11 +515,16 @@ class ContrastBar extends React.Component {
 
 	renderRecommendScheme(activityName) {
 			if ('精品推荐' !== activityName) return ;
+			const {recommend = []} = this['state'];
+			const items = recommend.map((item,key) => (
+				<span className='contrast' data-id={key}>
+					<img className='miniView-jacket' src={'/images/warehouse/' + item['jackeThumbnail']} />
+                    <img className='miniView-pants' src={'/images/warehouse/' + item['pantsThumbnail']} />
+				</span>
+			)); 
 			return (
 				<div>
-					<span className='contrast_none'></span>
-					<span className='contrast_none'></span>
-					<span className='contrast_none'></span>
+					{items}
 				</div>
 			);
 	}
@@ -554,13 +585,9 @@ class ContrastBar extends React.Component {
 		return (
 			<div className='row contrast_position'>
 				<div className='contrast_bar'>
-						<div className='contrast_title'>{this['state']['hidden_barName']}</div>
+						<div className='contrast_title'>热点推荐</div>
 						<div>
-							<span className='contrast_none'></span>
-							<span className='contrast_none'></span>
-							<span className='contrast_none'></span>
-							<span className='contrast_none'></span>
-							<span className='contrast_none'></span>
+							{this.renderRecommendScheme('精品推荐')}
 						</div>
 						<div className='contrast_plan_row'>
 							<span className='contrast_btn_prohibit'></span>

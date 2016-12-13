@@ -16,9 +16,18 @@ sqlMap.set('createScheme', 'INSERT INTO scheme (jackeId,pantsId,jackeThumbnail,p
 sqlMap.set('likeScheme', 'UPDATE scheme SET like=? WHERE id=?');
 sqlMap.set('viewScheme', 'UPDATE scheme SET view=? WHERE id=?');
 sqlMap.set('querySchemeById', 'SELECT * FROM scheme WHERE id=$id');
+sqlMap.set('askForRecommendation', 'SELECT jackeThumbnail,pantsThumbnail,id FROM scheme WHERE jackId = $id OR pantsId = $id ORDER BY like,view DESC LIMIT 0,5');
 sqlMap.set('getRecommend', 'SELECT jackeThumbnail,pantsThumbnail,id FROM scheme ORDER BY like,view DESC LIMIT 0,5');
 
 export default sequelize => sequelize.define({
+	askForRecommendation: function (_id) {
+		return new Promise((resolve, reject) => {
+			this.all(sqlMap.get('askForRecommendation'), {$id: _id}, (error, rows) => {
+				if(error) reject(error);
+				resolve(rows)
+			});
+		});
+	},
 	likeScheme: function (_id, count) {
 		return new Promise((resolve, reject) => {
 			this.run(sqlMap.get('likeScheme'), [count, _id], (error, flag) => {
@@ -30,9 +39,6 @@ export default sequelize => sequelize.define({
 	createScheme: function (scheme) {	
 		return new Promise((resolve, reject) => {
 			const {jackeId, pantsId, jackeThumbnail, pantsThumbnail} = scheme;
-			console.log(typeof jackeId);
-			console.log(typeof pantsId);
-			console.log(jackeId, pantsId, jackeThumbnail, pantsThumbnail);
 			this.run(sqlMap.get('createScheme'), [jackeId, pantsId, jackeThumbnail, pantsThumbnail], (error,flag) => {
 				if(error) reject(error);
 				resolve(flag);

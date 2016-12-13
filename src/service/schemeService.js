@@ -13,6 +13,14 @@ import {schemeDao, warehouseDao} from '../dao';
 
 export default class SchemeService {
 
+	static async askForRecommendation(id) {
+		let list = await schemeDao.askForRecommendation(id);
+		if(!list || 0 === list.length) {
+			list = await schemeDao.getRecommend();
+		}
+		return list;
+	}
+
 	static async collectionUserScheme(jackeId, pantsId) {
 		let scheme = await schemeDao.queryScheme(jackeId, pantsId);
 		if (scheme) {
