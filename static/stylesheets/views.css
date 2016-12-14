@@ -80,6 +80,7 @@
 
 .sellViews-other {
     margin-top: 6rem;
+    text-align: center;
     font-size: 12px;
 }
 
@@ -91,6 +92,51 @@
     margin-left: 1rem;
 }
 
+.sellViews-btn {
+    font-size: 15px;
+    color: #dc3f14;
+    margin: 0 2rem 0 2rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.sellViews-btn:hover {
+}
+
+.sellViews-form {
+    border-radius: 0.5rem;
+    position: absolute;
+    margin-top: -55em;
+    box-shadow: 0 0 6px 1px rgba(0,0,0,0.6);
+    background: #ffffff;
+    height: 18rem;
+    margin-left: 24%;
+}
+
+.sellViews-clos {
+    margin-top: 3rem;
+}
+
+.sellViews-clo {
+    display: inherit;
+    width: 31rem;
+    font-size: 1.8rem;
+    margin-top: 1em;
+    padding-left: 2rem;
+}
+
+.sellViews-clo > input {
+    border: none;
+    background-color: #ffffff;
+    border-bottom: 0.1rem solid #ccc;
+    float: right;
+    margin-right: 3rem;
+    margin-left: 2rem;
+}
+
+.sellViews-key {
+    line-height: 2.6rem;
+}
 
 /**
 * public

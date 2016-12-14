@@ -17,8 +17,26 @@ sqlMap.set('queryLook', 'select price,repertory,thumbnail,cycle,warehouse.id as 
 sqlMap.set('queryHot', 'select price,repertory,thumbnail,cycle,warehouse.id as id,warehouse.name as color,sell,style.name as name,style from warehouse left outer join style on warehouse.style = style.id order by sell desc limit 0,9');
 sqlMap.set('viewGoods', 'UPDATE warehouse SET hot = $hot WHERE id = $id');
 sqlMap.set('buyGoods', 'UPDATE warehouse SET sell = $sell, repertory = $repertory WHERE id = $id');
+sqlMap.set('createGoods', 'INSERT INTO warehouse (name, price, color, style, repertory, thumbnail, cycle, hot, sell) VALUES (?,?,?,?,?,?,?,?,?)');
+sqlMap.set('queryGoodsByName', 'SELECT id,name FROM warehouse WHERE name = $name AND style = $style')
 
 export default sequelize => sequelize.define({
+	queryGoodsByName: function (name, style) {
+		return new Promise((resolve, reject) => {
+			this.get(sqlMap.get('queryGoodsByName'), {$name: name, $style: style}, (error, row) => {
+				if (error) reject(error);
+				resolve(row);
+			});
+		});
+	},
+	createGoods: function (...args) {
+		return new Promise((resolve, reject) => {
+			this.run(sqlMap.get('createGoods'), args, (error,flag) => {
+				if(error) reject(error);
+				resolve(flag);
+			});
+		});
+	},
 	viewGoods: function (_id, hotCount) {
 		return new Promise((resolve, reject) => {
 			this.run(sqlMap.get('viewGoods'), {$id: _id, $hot: hotCount}, (error, flag) => {

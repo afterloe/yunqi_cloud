@@ -13,6 +13,13 @@ import {styleDao, warehouseDao, allocationDao} from '../dao';
 
 export default class WareHouseService {
 
+	static async appendToWarehouse(price, name , color, repertory, thumbnail) {
+		const [style, cycle] = [3, '30~35'];
+		const flag = await warehouseDao.queryGoodsByName(name, style);
+		if (flag) return false;
+		return await warehouseDao.createGoods(name, price, name, style, repertory, thumbnail, cycle, repertory, 0);
+	}
+
 	static async queryStylesheetById(id) {
 	    const [stylesheetInfo, stylesheetItems] = await Promise.all([styleDao.queryStylesheetById(id), warehouseDao.queryStylesheetItems(id)]);
 		return {stylesheetInfo, stylesheetItems};

@@ -12,6 +12,7 @@
 
 import common from './common';
 import style from './style';
+import service from './service';
 import coll from './collection';
 
 export default router => {
@@ -30,4 +31,6 @@ export default router => {
   	router.get('/json/obmit/allocation', coll['getAllocation']); // 获取 热点定制项
   	router.get('/json/obmit/recommend', coll['getRecommend']); // 获取冷推荐数据
   	router.get('/json/obmit/recommend/:id', coll['getHotRecommend']); // 获取热推荐数据
+
+	router.post('/json/service/appendScheme', service['appendScheme']); // 添加到系统项
 };
