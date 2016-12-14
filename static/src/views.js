@@ -68,12 +68,15 @@ class SellViews extends React.Component {
 		items.then(data => this.setState({items: data, activityView})).catch(err => alert('系统繁忙'));
     }
 
-    renderViewItems() {
-        const {items = []} = this['state'];
-        return items.map(item => (
-          <div className='col-md-3 sellViews-item'>
-              <div className='sellViews-view'><img src={'/images/warehouse/' + item['thumbnail']} /></div>
-              <div className='sellViews-card'>
+	renderCard(item, activityView) {
+		return '热点定制项' === activityView ? (
+			<div className='sellViews-card'>
+                  <p className='sellViews-pri'>需求数 : {item['repertory'] || 0}</p>
+                  <p className='sellViews-info'>商品名 : {item['name']}</p>
+                  <p className='sellViews-info'>色系 : <span className='colorDisc' style={{'background-color':item['color']}}></span></p>
+            </div>
+		) : (
+			<div className='sellViews-card'>
                   <p className='sellViews-pri'>价格 : HK$ {item['price'] || '-'}</p>
                   <p className='sellViews-info'>商品名 : {item['name']}</p>
                   <p className='sellViews-info'>色系 : {item['color']}</p>
@@ -81,7 +84,16 @@ class SellViews extends React.Component {
                     <span className='pull-left'>库存: {item['repertory'] || 0}</span>
                     <span className='pull-right'>交货周期: {item['cycle'] || '-'} 天</span>
                   </div>
-              </div>
+            </div>
+		);
+	}
+
+    renderViewItems() {
+        const {items = [], activityView} = this['state'];
+        return items.map(item => (
+          <div className='col-md-3 sellViews-item'>
+              <div className='sellViews-view'><img src={'/images/warehouse/' + item['thumbnail']} /></div>
+              {this.renderCard(item, activityView)}
           </div>
         ));
     }

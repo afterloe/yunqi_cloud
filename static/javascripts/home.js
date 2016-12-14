@@ -108,15 +108,16 @@ function getStyleInfomation(id) {
 	});
 }
 
-function sendAllocationScheme() {
+function sendAllocationScheme(__data) {
 	return new Promise(function (resolve, reject) {
 		var xhr = new XMLHttpRequest();
 		xhr.timeout = 15 * 1000;
 		xhr.ontimeout = function (event) {
 			return reject(new Error('can\'t get style info from server, please try again'));
 		};
-		xhr.open('get', '/json/style/styleInfo/' + id);
-		xhr.send();
+		xhr.open('post', '/json/collection/allocation');
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.send('name=' + __data['name'] + '&mould=' + __data['mould'] + '&rgb=' + __data['rgb']);
 		xhr.onreadystatechange = function () {
 			if (4 === xhr['readyState']) {
 				if (200 === xhr['status']) {
@@ -142,6 +143,7 @@ var AllocationApp = function (_React$Component) {
 		_this['openOptionList'] = _this['openOptionList'].bind(_this);
 		_this['addOption'] = _this['addOption'].bind(_this);
 		_this['deleteOption'] = _this['deleteOption'].bind(_this);
+		_this['submitScheme'] = _this['submitScheme'].bind(_this);
 		_this['state'] = {
 			choseColor: props['mould'][0],
 			options_flag: '<',
@@ -161,6 +163,15 @@ var AllocationApp = function (_React$Component) {
 				return index < 5 ? __options.push(opt) : ___options.push(opt);
 			});
 			this.setState({ options: __options, props: ___options });
+		}
+	}, {
+		key: 'submitScheme',
+		value: function submitScheme(event) {
+			var choseColor = this['state'].choseColor;
+
+			console.log(choseColor);
+			sendAllocationScheme(choseColor);
+			alert('已提交');
 		}
 	}, {
 		key: 'changColor',
@@ -382,7 +393,7 @@ var AllocationApp = function (_React$Component) {
 					{ className: 'row' },
 					React.createElement(
 						'span',
-						{ className: 'btn_saveChose' },
+						{ className: 'btn_saveChose', onClick: this.submitScheme },
 						'\u63D0\u4EA4\u5B9A\u5236\u65B9\u6848'
 					)
 				)
