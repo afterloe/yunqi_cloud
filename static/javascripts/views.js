@@ -9,105 +9,186 @@
  */
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 function obmitItemValues(__path) {
-	return new Promise((resolve, reject) => {
-		const xhr = new XMLHttpRequest();
-		xhr['timeout'] = 15 * 1000;
-		xhr['ontimeout'] = event => reject(new Error('time is up!'));
-		xhr.open('get', __path);
-		xhr.send();
-		xhr.onreadystatechange = () => {
-			if (4 === xhr['readyState']) {
-				if (200 === xhr['status']) {
-					const result = JSON.parse(xhr['responseText']);
-					resolve(result['result']);
-				} else
-					reject(new Error('system error'));
-			}
-		}
-	});
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr['timeout'] = 15 * 1000;
+        xhr['ontimeout'] = function (event) {
+            return reject(new Error('time is up!'));
+        };
+        xhr.open('get', __path);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (4 === xhr['readyState']) {
+                if (200 === xhr['status']) {
+                    var result = JSON.parse(xhr['responseText']);
+                    resolve(result['result']);
+                } else reject(new Error('system error'));
+            }
+        };
+    });
 }
 
-const loadHotAllocation = activityView => {
-      if ('热点定制项' !== activityView) return [];
-      return obmitItemValues('/json/obmit/allocation');
-}
-
-const loadHotSell = activityView => {
-      if ('最热销' !== activityView) return loadHotAllocation(activityView);
-      return obmitItemValues('/json/obmit/hot');
-}
-
-const loadHightClick = activityView => {
-      if ('最吸引眼球' !== activityView) return loadHotSell(activityView);
-      return obmitItemValues('/json/obmit/look');
+var loadHotAllocation = function loadHotAllocation(activityView) {
+    if ('热点定制项' !== activityView) return [];
+    return obmitItemValues('/json/obmit/allocation');
 };
 
-class SellViews extends React.Component {
-    constructor(props) {
-        super(props);
-        this['changeSelectView'] = this['changeSelectView'].bind(this);
-        this['state'] = {
-          activityView: props['views'][0]
+var loadHotSell = function loadHotSell(activityView) {
+    if ('最热销' !== activityView) return loadHotAllocation(activityView);
+    return obmitItemValues('/json/obmit/hot');
+};
+
+var loadHightClick = function loadHightClick(activityView) {
+    if ('最吸引眼球' !== activityView) return loadHotSell(activityView);
+    return obmitItemValues('/json/obmit/look');
+};
+
+var SellViews = function (_React$Component) {
+    _inherits(SellViews, _React$Component);
+
+    function SellViews(props) {
+        _classCallCheck(this, SellViews);
+
+        var _this = _possibleConstructorReturn(this, (SellViews.__proto__ || Object.getPrototypeOf(SellViews)).call(this, props));
+
+        _this['changeSelectView'] = _this['changeSelectView'].bind(_this);
+        _this['state'] = {
+            activityView: props['views'][0]
         };
+        return _this;
     }
 
-    componentWillMount() {
-        const {activityView} = this['state'];
-        const [__self, items] = [this, loadHightClick(activityView)];
-		items.then(data => {
-			__self.setState({items: data});
-		}).catch(err => {
-			alert('系统繁忙');
-		});
-    }
+    _createClass(SellViews, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var activityView = this['state'].activityView;
+            var _ref = [this, loadHightClick(activityView)],
+                __self = _ref[0],
+                items = _ref[1];
 
-    changeSelectView(event) {
-        const activityView = event['currentTarget']['innerText'];
-        const items = loadHightClick(activityView);
-		items.then(data => this.setState({items: data, activityView})).catch(err => alert('系统繁忙'));
-    }
+            items.then(function (data) {
+                __self.setState({ items: data });
+            }).catch(function (err) {
+                alert('系统繁忙');
+            });
+        }
+    }, {
+        key: 'changeSelectView',
+        value: function changeSelectView(event) {
+            var _this2 = this;
 
-    renderViewItems() {
-        const {items = []} = this['state'];
-        return items.map(item => (
-          <div className='col-md-3 sellViews-item'>
-              <div className='sellViews-view'><img src={'/images/warehouse/' + item['thumbnail']} /></div>
-              <div className='sellViews-card'>
-                  <p className='sellViews-pri'>价格 : HK$ {item['price'] || '-'}</p>
-                  <p className='sellViews-info'>商品名 : {item['name']}</p>
-                  <p className='sellViews-info'>色系 : {item['color']}</p>
-                  <div className='sellViews-other'>
-                    <span className='pull-left'>库存: {item['repertory'] || 0}</span>
-                    <span className='pull-right'>交货周期: {item['cycle'] || '-'} 天</span>
-                  </div>
-              </div>
-          </div>
-        ));
-    }
+            var activityView = event['currentTarget']['innerText'];
+            var items = loadHightClick(activityView);
+            items.then(function (data) {
+                return _this2.setState({ items: data, activityView: activityView });
+            }).catch(function (err) {
+                return alert('系统繁忙');
+            });
+        }
+    }, {
+        key: 'renderViewItems',
+        value: function renderViewItems() {
+            var _state$items = this['state'].items,
+                items = _state$items === undefined ? [] : _state$items;
 
-    renderViewsList() {
-        const {activityView} = this['state'];
-        return this['props']['views'].map(view => (<span className={view === activityView? 'compareActive':''} onClick={this.changeSelectView}>{view}</span>));
-    }
+            return items.map(function (item) {
+                return React.createElement(
+                    'div',
+                    { className: 'col-md-3 sellViews-item' },
+                    React.createElement(
+                        'div',
+                        { className: 'sellViews-view' },
+                        React.createElement('img', { src: '/images/warehouse/' + item['thumbnail'] })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'sellViews-card' },
+                        React.createElement(
+                            'p',
+                            { className: 'sellViews-pri' },
+                            '\u4EF7\u683C : HK$ ',
+                            item['price'] || '-'
+                        ),
+                        React.createElement(
+                            'p',
+                            { className: 'sellViews-info' },
+                            '\u5546\u54C1\u540D : ',
+                            item['name']
+                        ),
+                        React.createElement(
+                            'p',
+                            { className: 'sellViews-info' },
+                            '\u8272\u7CFB : ',
+                            item['color']
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'sellViews-other' },
+                            React.createElement(
+                                'span',
+                                { className: 'pull-left' },
+                                '\u5E93\u5B58: ',
+                                item['repertory'] || 0
+                            ),
+                            React.createElement(
+                                'span',
+                                { className: 'pull-right' },
+                                '\u4EA4\u8D27\u5468\u671F: ',
+                                item['cycle'] || '-',
+                                ' \u5929'
+                            )
+                        )
+                    )
+                );
+            });
+        }
+    }, {
+        key: 'renderViewsList',
+        value: function renderViewsList() {
+            var _this3 = this;
 
-    render() {
-      return (
-        <div className='container'>
-            <div className='row compareKeys'>
-                {this.renderViewsList()}
-            </div>
-            <div className='row compareValues'>
-                {this.renderViewItems()}
-            </div>
-        </div>
-      );
-    }
-}
+            var activityView = this['state'].activityView;
+
+            return this['props']['views'].map(function (view) {
+                return React.createElement(
+                    'span',
+                    { className: view === activityView ? 'compareActive' : '', onClick: _this3.changeSelectView },
+                    view
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                { className: 'container' },
+                React.createElement(
+                    'div',
+                    { className: 'row compareKeys' },
+                    this.renderViewsList()
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'row compareValues' },
+                    this.renderViewItems()
+                )
+            );
+        }
+    }]);
+
+    return SellViews;
+}(React.Component);
 
 //             <div className='pull-right sellViews-addView'>+ 添加视图</div>
 
-ReactDOM.render(
-    <SellViews views={['最吸引眼球','最热销','热点定制项']}/>,
-    document.getElementById('body')
-);
+ReactDOM.render(React.createElement(SellViews, { views: ['最吸引眼球', '最热销', '热点定制项'] }), document.getElementById('body'));
