@@ -44,6 +44,7 @@ export default class Collection {
 		if(ctx['error']) return next();
 		try {
 			const {jackeId, pantsId} = ctx['request']['body'];
+			console.log(jackeId, pantsId);
 			if (!jackeId || !pantsId) throw new Error('lack params');
 			const flag = await schemeService.collectionUserScheme(jackeId, pantsId);
 			ctx['body'] = ctx.success(flag);
@@ -58,8 +59,11 @@ export default class Collection {
 	static async allocation(ctx, next) {
 		if (ctx['error']) return next();
 		try {
-
+			const {name,mould,rgb} = ctx['request']['body'];
+			const flag = await schemeService.collectionUserAllocation(name, mould, rgb);
+			ctx['body'] = ctx.success(flag);
 		} catch (error) {
+			console.log(error);
 			ctx['error'] = error;
 		}
 

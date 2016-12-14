@@ -52,7 +52,7 @@ function sendScheme(jackeId, pantsId) {
 		const xhr = new XMLHttpRequest();
 		xhr.timeout = 15 * 1000;
 		xhr['ontimeout'] = event => reject(new Error('time up'));
-		xhr.open('post', `/json/collection/scheme`);
+		xhr.open('post', '/json/collection/scheme');
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.send(`jackeId=${jackeId}&pantsId=${pantsId}`);
 		xhr.onreadystatechange = () => {
@@ -79,29 +79,30 @@ function getStyleInfomation(id) {
 				if (200 === xhr['status']) {
 					const result = JSON.parse(xhr['responseText']);
 					resolve(result['result']);
-	      } else
+			    } else
 					reject(new Error('can\'t get style info from server, please try again'));
 			}
 		};
 	});
 }
 
-function sendAllocationScheme() {
+function sendAllocationScheme(__data) {
     return new Promise((resolve,reject) => {
         const xhr = new XMLHttpRequest();
         xhr.timeout = 15 * 1000;
         xhr.ontimeout = event => reject(new Error('can\'t get style info from server, please try again'));
-        xhr.open('get', `/json/style/styleInfo/${id}`);
-    		xhr.send();
+        xhr.open('post', '/json/collection/allocation');
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.send(`name=${__data['name']}&mould=${__data['mould']}&rgb=${__data['rgb']}`);
         xhr.onreadystatechange = () => {
-    			if (4 === xhr['readyState']) {
-    				if (200 === xhr['status']) {
-    					const result = JSON.parse(xhr['responseText']);
-    					resolve(result['result']);
-    	      } else
-    					reject(new Error('can\'t get style info from server, please try again'));
-    			}
-    		};
+			if (4 === xhr['readyState']) {
+    			if (200 === xhr['status']) {
+    				const result = JSON.parse(xhr['responseText']);
+    				resolve(result['result']);
+			    } else
+    				reject(new Error('can\'t get style info from server, please try again'));
+    		}
+    	};
     });
 }
 
@@ -115,6 +116,7 @@ class AllocationApp extends React.Component {
 		this['openOptionList'] = this['openOptionList'].bind(this);
 		this['addOption'] = this['addOption'].bind(this);
 		this['deleteOption'] = this['deleteOption'].bind(this);
+		this['submitScheme'] = this['submitScheme'].bind(this);
 		this['state'] = {
 			choseColor: props['mould'][0],
 			options_flag: '<',
@@ -129,10 +131,17 @@ class AllocationApp extends React.Component {
 		this.setState({options: __options, props: ___options});
 	}
 
+	submitScheme(event) {
+		const {choseColor} = this['state'];
+		console.log(choseColor);
+		sendAllocationScheme(choseColor);
+		alert('已提交');
+	}
+
 	changColor(event) {
-    const id = event['currentTarget'].getAttribute('data-id');
-    const mould = this['props']['mould'][id];
-    this.setState({choseColor: mould, isChoseColor: false});
+		const id = event['currentTarget'].getAttribute('data-id');
+	    const mould = this['props']['mould'][id];
+		this.setState({choseColor: mould, isChoseColor: false});
 	}
 
 	openColorDisc(event) {
@@ -249,7 +258,7 @@ class AllocationApp extends React.Component {
 					</div>
 				</div>
 				<div className='row'>
-					<span className='btn_saveChose'>提交定制方案</span>
+					<span className='btn_saveChose' onClick={this.submitScheme}>提交定制方案</span>
 				</div>
 			</div>
 		);

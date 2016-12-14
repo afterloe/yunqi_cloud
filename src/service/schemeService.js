@@ -9,9 +9,20 @@
  */
 "use strict";
 
-import {schemeDao, warehouseDao} from '../dao';
+import {schemeDao, warehouseDao, allocationDao} from '../dao';
 
 export default class SchemeService {
+
+	static async collectionUserAllocation(name, mould, rgb) {
+		const allocation = await allocationDao.querySchemeByName(name);
+		if (allocation) {
+			let likeCount = Number.parseInt(allocation['repertory']);
+			likeCount++;
+			return await allocationDao.likeScheme(allocation['id'], likeCount);
+		} else {
+			return await allocationDao.createScheme(name, mould, rgb);
+		}
+	}
 
 	static async askForRecommendation(id) {
 		let list = await schemeDao.askForRecommendation(id);

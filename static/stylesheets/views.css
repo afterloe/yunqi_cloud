@@ -18,7 +18,7 @@
     border-radius: 0.5rem;
     background-color: #ffffff;
     margin-bottom: 1.5rem;
-    height: 50em;
+    min-height: 50em;
 }
 
 .compareKeys {
