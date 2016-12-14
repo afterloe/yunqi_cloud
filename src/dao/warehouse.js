@@ -11,7 +11,7 @@
 
 const sqlMap = new Map();
 
-sqlMap.set('queryStylesheetItems','SELECT id,name,price,color,repertory,thumbnail,cycle,hot FROM warehouse WHERE style = $style');
+sqlMap.set('queryStylesheetItems','SELECT id,name,price,color,repertory,thumbnail,cycle,hot FROM warehouse WHERE style = $style ORDER BY hot,sell DESC');
 sqlMap.set('queryById', 'SELECT id,name,price,color,repertory,thumbnail,cycle,hot,sell FROM warehouse WHERE id = $id');
 sqlMap.set('queryLook', 'select price,repertory,thumbnail,cycle,warehouse.id as id,warehouse.name as color,hot,style.name as name,style from warehouse left outer join style on warehouse.style = style.id order by hot desc limit 0,9');
 sqlMap.set('queryHot', 'select price,repertory,thumbnail,cycle,warehouse.id as id,warehouse.name as color,sell,style.name as name,style from warehouse left outer join style on warehouse.style = style.id order by sell desc limit 0,9');
