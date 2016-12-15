@@ -72,6 +72,32 @@ $ pm2 start bin/main.js --name yunqi --watch
 使用
 ===
 
-浏览器访问 127.0.0.1:15021 进入销售配置器首页，左边为上衣选配目录，右边为裤子选配目录。选择目录进入到各个详细子目录中。选择喜欢的衣服和裤子进行搭配。最后勾选保存方案。保存方案之后可以看到系统对当前方案的一个推荐方案，点击比对的时候就能多选方案进行比对。但是比对按钮在勾选1个方案的时候是不能够进行比对的，所以需要勾选2个或2个以上的方案才能激活对比事件。在对比的页面可以看到选配项的属性和图片，对比之后就能在该页面进行下单。最后点击返回按钮即可返回到销售配置页  
+浏览器访问 127.0.0.1:15021 进入销售配置器首页，左边为上衣选配目录，右边为裤子选配目录。  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-13-24屏幕截图.png)  
+选择目录进入到各个详细子目录中。选择喜欢的衣服和裤子进行搭配。  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-13-37屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-13-51屏幕截图.png)  
+最后勾选保存方案。保存方案之后可以看到系统对当前方案的一个推荐方案，点击比对的时候就能多选方案进行比对。  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-14-11屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-16-03屏幕截图.png)  
+但是比对按钮在勾选1个方案的时候是不能够进行比对的，所以需要勾选2个或2个以上的方案才能激活对比事件。在对比的页面可以看到选配项的属性和图片，对比之后就能在该页面进行下单。最后点击返回按钮即可返回到销售配置页  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-16-17屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-16-23屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-16-31屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-16-44屏幕截图.png)  
+
 浏览器访问 127.0.0.1:15021/views 进入到销售页，该页能够看到最多被点击的衣服，也能看到最多被下单的衣服。这些数据都是之前客户页面进行勾选的时候收集统计的，所以排序和内容会有相同也会有不同，点击热点配置项，再单击添加到销售列表，就能将定制型发送到对应的项目上前端也就能看到最新的内容。  
-更多内容可以体验
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-17-01屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-17-20屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-17-26屏幕截图.png)  
+
+更多内容可以体验  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-32-18屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-32-38屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-32-57屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-37-18屏幕截图.png)  
+![image](https://github.com/yunqi_cloud/raw/master/doc/thumbnail/2016-12-15 15-37-22屏幕截图.png)  
+
+License
+===
+ISC
