@@ -10,8 +10,9 @@
 "use strict";
 
 import sqliteLib from 'sqlite3';
-import {db} from '../../configuration';
+import {get} from '../../config';
 
+const db = get('db');
 const dbPath = db? db: ':memory:';
 const sqlite3 = sqliteLib.verbose();
 const databases = new sqlite3.Database(dbPath);

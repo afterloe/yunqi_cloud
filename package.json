@@ -22,7 +22,6 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.16.0",
-    "graceful": "^1.0.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
     "koa-pug": "^3.0.0-1",
