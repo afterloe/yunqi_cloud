@@ -36,7 +36,7 @@ function startSlave() {
 }
 
 if (enable) {
-	cluster['schedulingPolicy'] = cluster['SCHED_RR']; // 启用轮叫调度策略
+//	cluster['schedulingPolicy'] = cluster['SCHED_RR']; // 启用轮叫调度策略
 	const server = createServer();
 	server.listen(registryPort, bindHost, () => {
 		server::startSlave;
