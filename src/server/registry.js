@@ -9,6 +9,7 @@
  */
 "use strict";
 
+import 'babel-polyfill';
 import Koa from "koa";
 import Pug from "koa-pug";
 import {resolve} from "path";

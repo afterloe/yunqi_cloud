@@ -10,7 +10,7 @@
 "use strict";
 
 import sqliteLib from 'sqlite3';
-import {get} from '../../config';
+import {get} from '../config';
 
 const db = get('db');
 const dbPath = db? db: ':memory:';

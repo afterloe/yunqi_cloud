@@ -17,8 +17,12 @@ const defaultRoot = resolve(process['env']['HOME'], '.cynomys', 'yunqi');
 
 const [num, dataDir, logDir] = [cpus()['length'], resolve(defaultRoot, 'data'), resolve(defaultRoot, 'logs')];
 
-siteConfig.set('slaveNumber', num); // 奴隶数 -- 默认和 CPU核数相同
-siteConfig.set('bindHost', '127.0.0.1'); // 监听IP
+siteConfig.set('distributed', { // 多线程配置
+	enable: true,
+	slaveNum : num // 奴隶数
+}); 
+// siteConfig.set('bindHost', '127.0.0.1'); // 监听IP
+siteConfig.set('bindHost', '0.0.0.0'); // 监听端口
 siteConfig.set('registryPort', 15021); // 监听端口
 siteConfig.set('db', '/home/afterloe/wehouse.db'); // DB 目录
 siteConfig.set('dataDir', dataDir); // 数据存储目录
